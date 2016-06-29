@@ -1,36 +1,44 @@
-[%- IF error %]
-[% error %]
-[% END -%]
-<form action="[% c.uri_for( '/register' ) %]" method="post">
-  <div class="form-group">
-    <input
-      class="form-control"
-      type="text"
-      name="username"
-      placeholder="Username"
-      [%- IF username %]
-      value="[% username %]"
-      [%- END %]
-      required>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    [%- IF error %]
+    <div class="panel panel-danger">
+      <div class="panel-heading text-center">
+        [% error %]
+      </div>
+    </div>
+    [% END -%]
+    <form action="[% c.uri_for( '/register' ) %]" method="post">
+      <div class="form-group">
+        <input
+          class="form-control"
+          type="text"
+          name="username"
+          placeholder="Username"
+          [%- IF username %]
+          value="[% username %]"
+          [%- END %]
+          required>
+      </div>
+      <div class="form-group">
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          placeholder="Email"
+          [%- IF email %]
+          value="[% email %]"
+          [%- END %]
+          required>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="password" name="password" placeholder="Password" required>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="password" name="pass_check" placeholder="Repeat Password" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <input
-      class="form-control"
-      type="email"
-      name="email"
-      placeholder="Email"
-      [%- IF email %]
-      value="[% email %]"
-      [%- END %]
-      required>
-  </div>
-  <div class="form-group">
-    <input class="form-control" type="password" name="password" placeholder="Password" required>
-  </div>
-  <div class="form-group">
-    <input class="form-control" type="password" name="pass_check" placeholder="Repeat Password" required>
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-default">Submit</button>
-  </div>
-</form>
+</div>
