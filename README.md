@@ -55,3 +55,28 @@ To run the tests, run the following commands:
 ./vendor/bin/carton install --deployment
 ./vendor/bin/carton exec prove -l
 ```
+
+# Development
+
+To set up for development, create a file called 'mk3_appserver_local.conf' and
+add the following to it:
+
+```
+<Model::DB>
+  <connect_info>
+    dsn dbi:SQLite:dbname=mydb.db
+  </connect_info>
+</Model::DB>
+```
+
+Then run the following commands:
+
+```
+./vendor/bin/carton install
+./vendor/bin/carton exec script/deploy.pl install -c dbi:SQLite:dbname=mydb.db
+CATALYST_DEBUG=1 ./vendor/bin/carton exec script/mk3_appserver_server.pl -r
+```
+
+This will install all the dependencies, install a local SQLite database, and
+then start up a local testing server in debug mode, which will automatically
+reload on any changes to the codebase.
