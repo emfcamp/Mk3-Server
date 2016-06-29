@@ -17,8 +17,7 @@ The root page (/)
 sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
-  # Hello World
-  $c->response->body( $c->welcome_message );
+  # Load stuff in as required to the stash for template
 }
 
 =head2 default

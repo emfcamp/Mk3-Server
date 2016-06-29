@@ -14,6 +14,7 @@ requires 'Moo';
 requires 'MooX::Options';
 requires 'Module::Runtime';
 requires 'namespace::clean';
+requires 'Catalyst::View::TT';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
