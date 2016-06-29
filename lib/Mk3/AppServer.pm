@@ -21,6 +21,10 @@ use Catalyst qw/
   -Debug
   ConfigLoader
   Static::Simple
+  Session
+  Session::Store::FastMmap
+  Session::State::Cookie
+  Authentication
 /;
 
 extends 'Catalyst';
@@ -46,6 +50,21 @@ __PACKAGE__->config(
 
   'View::TT' => {
     INCLUDE_PATH => __PACKAGE__->path_to( qw/ root templates / ),
+  },
+
+  'Plugin::Authentication' => {
+    default_realm => 'people',
+    people  => {
+      credential => {
+        class => 'Password',
+        password_field => 'password',
+        password_type  => 'self_check',
+      },
+      store => {
+        class => 'DBIx::Class',
+        user_model => 'DB::User',
+      },
+    },
   },
 );
 

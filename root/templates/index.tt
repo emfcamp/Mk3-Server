@@ -1,1 +1,9 @@
-Hello World!
+<div class="jumbotron text-center">
+<h1>
+[%- IF c.user_exists %]
+Hello [% c.user.username %]!
+[%- ELSE %]
+Please log in or register
+[%- END %]
+</h1>
+</div>

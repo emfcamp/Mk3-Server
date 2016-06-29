@@ -14,8 +14,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        [%- IF c.user_exists %]
+        <li><a href="[% c.uri_for( '/logout' ) %]">Logout</a></li>
+        [%- ELSE %]
         <li><a href="[% c.uri_for( '/register' ) %]">Register</a></li>
         <li><a href="[% c.uri_for( '/login' ) %]">Login</a></li>
+        [%- END %]
       </ul>
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">

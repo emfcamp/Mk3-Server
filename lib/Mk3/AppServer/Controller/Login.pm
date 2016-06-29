@@ -24,6 +24,9 @@ Catalyst Controller.
 sub index :Path :Args(0) GET {
   my ( $self, $c ) = @_;
 
+  if ( $c->user_exists ) {
+    $c->res->redirect( $c->uri_for( '/' ) );
+  }
 }
 
 sub login_post :Path :Args(0) POST {
@@ -32,9 +35,7 @@ sub login_post :Path :Args(0) POST {
   my $username = $c->request->body_data->{username};
   my $password = $c->request->body_data->{password};
 
-  $c->log->warn( "username: $username" );
-  $c->log->warn( "password: $password" );
-  if ( $username eq 'test' && $password eq 'pass' ) {
+  if ( $c->authenticate({ username => $username, password => $password }) ) {
     $c->res->redirect( $c->uri_for( '/' ) );
   } else {
     $c->stash( error => 'Unrecognised Username/Password' );

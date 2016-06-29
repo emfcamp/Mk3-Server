@@ -9,7 +9,9 @@
     <link href="[% c.uri_for('/static/css/main.css') %]" rel="stylesheet" />
   </head>
   <body>
-    [% INCLUDE 'partials/navbar.tt' %]
-    [% content %]
+    [%- INCLUDE 'partials/navbar.tt' %]
+    <div class="container">
+      [%- content %]
+    </div>
   </body>
 </html>
