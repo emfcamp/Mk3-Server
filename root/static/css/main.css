@@ -1,1 +1,14 @@
+#content {
+  /* height of footer */
+  margin-bottom: 40px;
+}
 
+#footer {
+  height: 40px;
+  background-color: #f5f5f5;
+}
+
+.powered-by {
+  /* image is 31px high */
+  margin: 4px 0;
+}
