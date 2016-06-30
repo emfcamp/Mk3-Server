@@ -1021,6 +1021,19 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.48
       Test::Simple 0.90
       perl 5.008
+  DBICx-TestDatabase-0.05
+    pathname: J/JR/JROCKWAY/DBICx-TestDatabase-0.05.tar.gz
+    provides:
+      DBICx::TestDatabase 0.05
+      DBICx::TestDatabase::Subclass undef
+    requirements:
+      DBD::SQLite 1.29
+      DBIx::Class 0
+      ExtUtils::MakeMaker 6.36
+      File::Temp 0
+      SQL::Translator 0
+      Test::More 0
+      ok 0
   DBIx-Class-0.082840
     pathname: R/RI/RIBASUSHI/DBIx-Class-0.082840.tar.gz
     provides:
@@ -1219,6 +1232,20 @@ DISTRIBUTIONS
       SQL::Translator 0
       Test::More 0.89
       parent 0
+  DBIx-Class-InflateColumn-FS-0.01007
+    pathname: M/MM/MMIMS/DBIx-Class-InflateColumn-FS-0.01007.tar.gz
+    provides:
+      DBIx::Class::InflateColumn::FS 0.01007
+      DBIx::Class::InflateColumn::FS::ResultSet undef
+    requirements:
+      DBD::SQLite 1.12
+      DBICx::TestDatabase 0
+      DBIx::Class 0.08
+      DBIx::Class::UUIDColumns 0.02005
+      ExtUtils::MakeMaker 6.42
+      File::Find 0
+      Path::Class 0
+      perl 5.006001
   DBIx-Class-IntrospectableM2M-0.001002
     pathname: I/IL/ILMARI/DBIx-Class-IntrospectableM2M-0.001002.tar.gz
     provides:
@@ -1319,6 +1346,25 @@ DISTRIBUTIONS
       Test::Warn 0.21
       Try::Tiny 0
       namespace::clean 0.23
+      perl 5.008001
+  DBIx-Class-UUIDColumns-0.02006
+    pathname: A/AB/ABRAXXA/DBIx-Class-UUIDColumns-0.02006.tar.gz
+    provides:
+      DBIx::Class::UUIDColumns 0.02006
+      DBIx::Class::UUIDColumns::UUIDMaker undef
+      DBIx::Class::UUIDColumns::UUIDMaker::APR::UUID undef
+      DBIx::Class::UUIDColumns::UUIDMaker::Data::GUID undef
+      DBIx::Class::UUIDColumns::UUIDMaker::Data::UUID undef
+      DBIx::Class::UUIDColumns::UUIDMaker::Data::Uniqid undef
+      DBIx::Class::UUIDColumns::UUIDMaker::UUID undef
+      DBIx::Class::UUIDColumns::UUIDMaker::UUID::Random undef
+      DBIx::Class::UUIDColumns::UUIDMaker::Win32::Guidgen undef
+      DBIx::Class::UUIDColumns::UUIDMaker::Win32API::GUID undef
+    requirements:
+      Class::Accessor::Grouped 0
+      DBD::SQLite 1.11
+      DBIx::Class 0.07005
+      ExtUtils::MakeMaker 6.42
       perl 5.008001
   Data-Compare-1.25
     pathname: D/DC/DCANTRELL/Data-Compare-1.25.tar.gz

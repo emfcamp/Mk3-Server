@@ -37,4 +37,6 @@ column set_password_code => {
   is_nullable => 1,
 };
 
+has_many( 'projects' => 'Mk3::AppServer::Schema::Result::Project', 'user_id' );
+
 1;
