@@ -1,11 +1,25 @@
 package Mk3::AppServer::Model::DB;
 
-use strict;
-use base 'Catalyst::Model::DBIC::Schema';
+use Moose;
+extends 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
   schema_class => 'Mk3::AppServer::Schema',
 );
+
+has storage_path => (
+  is => 'ro',
+  required => 1,
+);
+
+after BUILD => sub {
+  my $self = shift;
+  $self->schema
+       ->source('File')
+       ->column_info('file')
+       ->{'fs_column_path'} = $self->storage_path;
+};
+
 
 =head1 NAME
 
