@@ -15,7 +15,24 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         [%- IF c.user_exists %]
-        <li><a href="[% c.uri_for( '/logout' ) %]">Logout</a></li>
+        <li class="dropdown">
+          <a
+            href="#"
+            class="user-dropdown"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            <span class="glyphicon glyphicon-user" sr-only="User Menu"></span>
+            [% c.user.username %]
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="[% c.uri_for( '/logout' ) %]">Logout</a></li>
+          </ul>
+        </li>
         [%- ELSE %]
         <li><a href="[% c.uri_for( '/register' ) %]">Register</a></li>
         <li><a href="[% c.uri_for( '/login' ) %]">Login</a></li>
