@@ -18,6 +18,18 @@ after BUILD => sub {
        ->source('File')
        ->column_info('file')
        ->{'fs_column_path'} = $self->storage_path;
+  $self->schema
+       ->source('Version')
+       ->column_info('zip_file')
+       ->{'fs_column_path'} = $self->storage_path;
+  $self->schema
+       ->source('Version')
+       ->column_info('tar_file')
+       ->{'fs_column_path'} = $self->storage_path;
+  $self->schema
+       ->source('Version')
+       ->column_info('gz_file')
+       ->{'fs_column_path'} = $self->storage_path;
 };
 
 

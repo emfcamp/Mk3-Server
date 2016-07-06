@@ -21,6 +21,24 @@ column description => {
   data_type => 'text',
 };
 
+column tar_file => {
+  data_type => 'text',
+  is_fs_column => 1,
+  fs_column_path => '/tmp/mk3appserver',
+};
+
+column zip_file => {
+  data_type => 'text',
+  is_fs_column => 1,
+  fs_column_path => '/tmp/mk3appserver',
+};
+
+column gz_file => {
+  data_type => 'text',
+  is_fs_column => 1,
+  fs_column_path => '/tmp/mk3appserver',
+};
+
 belongs_to(
   'project' => 'Mk3::AppServer::Schema::Result::Project',
   { 'foreign.id' => 'self.project_id' },
