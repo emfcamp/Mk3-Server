@@ -36,7 +36,14 @@ sub register_post :Path :Args(0) POST {
 
   my $user_rs = $c->model('DB::User');
 
-  if ( $user_rs->find({ username => $username }) ) {
+  unless ( $username =~ /^\w*$/ ) {
+    $c->stash(
+      error => 'Username contains invalid characters, only alphanumeric and \'_\' allowed.',
+      username => $username,
+      email => $email,
+      template => 'register/index.tt',
+    );
+  } elsif ( $user_rs->find({ username => $username }) ) {
     $c->stash(
       error    => 'Username already exists',
       username => $username,
