@@ -25,18 +25,21 @@ column tar_file => {
   data_type => 'text',
   is_fs_column => 1,
   fs_column_path => '/tmp/mk3appserver',
+  is_nullable => 1,
 };
 
 column zip_file => {
   data_type => 'text',
   is_fs_column => 1,
   fs_column_path => '/tmp/mk3appserver',
+  is_nullable => 1,
 };
 
 column gz_file => {
   data_type => 'text',
   is_fs_column => 1,
   fs_column_path => '/tmp/mk3appserver',
+  is_nullable => 1,
 };
 
 belongs_to(

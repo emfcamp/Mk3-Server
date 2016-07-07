@@ -14,6 +14,11 @@ unique_column username => {
   size => 255,
 };
 
+unique_column lc_username => {
+  data_type => 'varchar',
+  size => 255,
+};
+
 unique_column email => {
   data_type => 'varchar',
   size => 255,

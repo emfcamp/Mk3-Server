@@ -17,6 +17,11 @@ column name => {
   size => 255,
 };
 
+column lc_name => {
+  data_type => 'varchar',
+  size => 255,
+};
+
 column description => {
   data_type => 'text',
 };
