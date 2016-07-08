@@ -1,2 +1,2 @@
-<p>User: [% user_capture %]</p>
-<p>App: [% app_capture %]</p>
+<h1>[% user_result.username %]</h1>
+<h2>App: [% app_result.name %]</h2>

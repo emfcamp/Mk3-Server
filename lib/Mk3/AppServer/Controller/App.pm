@@ -30,7 +30,9 @@ sub index :Path :Args(0) {
 sub apps :Path('/apps') :Args(0) {
   my ( $self, $c ) = @_;
 
-  my $apps_rs = $c->model( 'DB::Project' );
+  my $apps_rs = $c->model( 'DB::Project' )->search( undef,
+    { order_by => { -desc => 'name' } }
+  );
   $c->stash( apps_rs => $apps_rs );
 }
 
@@ -41,7 +43,7 @@ sub add :Local :Args(0) {
 
 
   if ( $c->user_exists ) {
-    unless( $app_name =~ /^[\w- ]+$/ ) {
+    unless( $app_name =~ /^[\w\- ]+$/ ) {
       $c->stash(
         error => 'App name can only contain alphanumeric characters,'
                  . " spaces, '-' and '_'",
@@ -63,7 +65,7 @@ sub add :Local :Args(0) {
           description => '',
         }
       );
-      $c->res->redirect( $c->uri_for( '/app/' . $lc_name ) );
+      $c->res->redirect( $c->uri_for( sprintf( '/app/%s/%s', $c->user->lc_username, $lc_name ) ) );
     }
   } else {
     $c->stash( error => 'You cannot create an app when not logged in' );
@@ -78,19 +80,42 @@ sub chain_root :Chained(/) :PathPart('app') :CaptureArgs(0) {
 sub chain_user :Chained('chain_root') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $username ) = @_;
 
-  $c->stash( user_capture => $username );
+  my $user_result = $c->model( 'DB::User' )->find({ lc_username => $username });
+  if ( defined $user_result ) {
+  $c->stash(
+    user_result => $user_result,
+    owner => $c->user->id eq $user_result->id ? 1 : 0,
+  );
+  } else {
+    $c->stash(
+      template => 'error.tt',
+      error => 'That user does not exist',
+    );
+    $c->res->status(404);
+  }
 }
 
 sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
   my ( $self, $c, $username ) = @_;
 
-  $c->stash( user_capture => $username );
+  $self->chain_user( $c, $username );
 }
 
 sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
   my ( $self, $c, $appname ) = @_;
 
-  $c->stash( app_capture => $appname );
+  my $app_result = $c->stash->{ user_result }->projects->find({ lc_name => $appname });
+  if ( defined $app_result ) {
+    $c->stash(
+      app_result => $app_result,
+    );
+  } else {
+    $c->stash(
+      template => 'error.tt',
+      error => 'That app does not exist',
+    );
+    $c->res->status(404);
+  }
 }
 
 =encoding utf8
