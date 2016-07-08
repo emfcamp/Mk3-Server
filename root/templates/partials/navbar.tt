@@ -28,9 +28,19 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="#">Settings</a></li>
+            <li><a href="[% c.uri_for( '/user/programs' ) %]">
+              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+              My Programs
+            </a></li>
+            <li><a href="[% c.uri_for( '/user/settings' ) %]">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              Settings
+            </a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="[% c.uri_for( '/logout' ) %]">Logout</a></li>
+            <li><a href="[% c.uri_for( '/logout' ) %]">
+              <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+              Logout
+            </a></li>
           </ul>
         </li>
         [%- ELSE %]
