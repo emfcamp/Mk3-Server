@@ -1,0 +1,2 @@
+<p>User: [% user_capture %]</p>
+<p>App: [% app_capture %]</p>

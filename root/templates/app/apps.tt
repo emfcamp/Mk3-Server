@@ -1,0 +1,17 @@
+<p>This is the root apps bit</p>
+
+[% IF c.user_exists %]
+<form action="[% c.uri_for( '/app/add' ) %]" method="post">
+  <div class="form-group">
+    <input type="text" class="form-control" name="app_name" placeholder="App Name">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+<form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="form_submit" value="yes">
+  <input type="file" name="my_file">
+  <input type="submit" value="Upload">
+</form>
+[% END %]
