@@ -1,0 +1,22 @@
+[%- IF error %]
+<div class="panel panel-danger">
+  <div class="panel-heading text-center">
+    [% error %]
+  </div>
+</div>
+[% END -%]
+[% IF c.user_exists %]
+<form action="[% c.uri_for( '/app/add' ) %]" method="post">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      name="app_name"
+      [%- IF app_name %]
+      value="[% app_name %]"
+      [%- END %]
+      placeholder="App Name">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+[% END %]

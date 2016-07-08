@@ -30,6 +30,8 @@ sub index :Path :Args(0) {
 sub apps :Path('/apps') :Args(0) {
   my ( $self, $c ) = @_;
 
+  my $apps_rs = $c->model( 'DB::Project' );
+  $c->stash( apps_rs => $apps_rs );
 }
 
 sub add :Local :Args(0) {
@@ -37,18 +39,34 @@ sub add :Local :Args(0) {
 
   my $app_name = $c->req->body_params->{ app_name };
 
-  unless( $app_name =~ /^\w*$/ ) {
-    # do something
-  }
 
   if ( $c->user_exists ) {
-
-    my $users_projects_rs = $c->user->projects;
-
-    unless ( $users_projects_rs->search({ name => $app_name }) ) {
-      #do something
+    unless( $app_name =~ /^[\w- ]+$/ ) {
+      $c->stash(
+        error => 'App name can only contain alphanumeric characters,'
+                 . " spaces, '-' and '_'",
+        app_name => $app_name,
+      );
+    } elsif ( $c->user->projects->find({ name => $app_name }) ) {
+      $c->stash(
+        error => 'App Already Exists',
+        app_name => $app_name,
+      );
+    } else {
+      my $lc_name = lc $app_name;
+      $lc_name =~ s/ /-/g;
+      $c->user->create_related(
+        'projects',
+        {
+          name => $app_name,
+          lc_name => $lc_name,
+          description => '',
+        }
+      );
+      $c->res->redirect( $c->uri_for( '/app/' . $lc_name ) );
     }
-
+  } else {
+    $c->stash( error => 'You cannot create an app when not logged in' );
   }
 }
 

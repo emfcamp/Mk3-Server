@@ -1,4 +1,11 @@
 <p>This is the root apps bit</p>
+[%- IF message %]
+<div class="panel panel-default">
+  <div class="panel-heading text-center">
+    [% message %]
+  </div>
+</div>
+[% END -%]
 
 [% IF c.user_exists %]
 <form action="[% c.uri_for( '/app/add' ) %]" method="post">
@@ -14,4 +21,8 @@
   <input type="file" name="my_file">
   <input type="submit" value="Upload">
 </form>
+[% END %]
+
+[% WHILE (app_result = apps_rs.next) %]
+<p>[% app_result.name %] | [% app_result.lc_name %]</p>
 [% END %]
