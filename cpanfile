@@ -22,6 +22,8 @@ requires 'Catalyst::Plugin::Authentication';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::InflateColumn::FS';
+requires 'JSON::MaybeXS';
+requires 'Cpanel::JSON::XS';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
