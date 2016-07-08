@@ -1,0 +1,6 @@
+Upload data:
+[% upload_dump %]
+
+<p>[% upload_error %]</p>
+
+<p>[% file_contents %]</p>
