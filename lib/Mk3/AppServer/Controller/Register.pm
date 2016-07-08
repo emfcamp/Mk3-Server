@@ -67,6 +67,7 @@ sub register_post :Path :Args(0) POST {
   } else {
     $user_rs->create({
       username => $username,
+      lc_username => lc $username,
       email    => $email,
       password => $password,
     });
