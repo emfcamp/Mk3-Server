@@ -1,3 +1,9 @@
 <h1>[% user_result.username %]</h1>
 
 This is the user list page
+
+app count: [% apps_rs.count %]
+
+[% WHILE (app_result = apps_rs.next) %]
+<p>[% app_result.name %] | [% app_result.lc_name %]</p>
+[% END %]

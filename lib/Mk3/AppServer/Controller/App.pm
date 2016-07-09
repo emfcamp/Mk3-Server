@@ -31,7 +31,7 @@ sub apps :Path('/apps') :Args(0) {
   my ( $self, $c ) = @_;
 
   my $apps_rs = $c->model( 'DB::Project' )->search( undef,
-    { order_by => { -desc => 'name' } }
+    { order_by => { -asc => 'lc_name' } }
   );
   $c->stash( apps_rs => $apps_rs );
 }
@@ -40,7 +40,6 @@ sub add :Local :Args(0) {
   my ( $self, $c ) = @_;
 
   my $app_name = $c->req->body_params->{ app_name };
-
 
   if ( $c->user_exists ) {
     unless( $app_name =~ /^[\w\- ]+$/ ) {
@@ -65,7 +64,11 @@ sub add :Local :Args(0) {
           description => '',
         }
       );
-      $c->res->redirect( $c->uri_for( sprintf( '/app/%s/%s', $c->user->lc_username, $lc_name ) ) );
+      $c->res->redirect(
+        $c->uri_for(
+          sprintf( '/app/%s/%s', $c->user->lc_username, $lc_name )
+        )
+      );
     }
   } else {
     $c->stash( error => 'You cannot create an app when not logged in' );
@@ -82,10 +85,14 @@ sub chain_user :Chained('chain_root') :PathPart('') :CaptureArgs(1) {
 
   my $user_result = $c->model( 'DB::User' )->find({ lc_username => $username });
   if ( defined $user_result ) {
-  $c->stash(
-    user_result => $user_result,
-    owner => $c->user->id eq $user_result->id ? 1 : 0,
-  );
+    my $owner_flag = 0;
+    if ( $c->user_exists ) {
+      $owner_flag = $c->user->id eq $user_result->id ? 1 : 0;
+    }
+    $c->stash(
+      user_result => $user_result,
+      owner => $owner_flag,
+    );
   } else {
     $c->stash(
       template => 'error.tt',
@@ -99,6 +106,14 @@ sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
   my ( $self, $c, $username ) = @_;
 
   $self->chain_user( $c, $username );
+  if ( defined ( my $user_result = $c->stash->{ user_result } ) ) {
+    $c->stash(
+      thing => 1,
+      apps_rs => $user_result->search_related_rs( 'projects', undef,
+        { order_by => { -asc => 'lc_name' } }
+      ),
+    );
+  }
 }
 
 sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
