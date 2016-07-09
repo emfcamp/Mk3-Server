@@ -1,3 +1,12 @@
 <h1>[% user_result.username %]</h1>
 <h2>App: [% app_result.name %]</h2>
 
+[% IF c.user_exists && owner %]
+<form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="form_submit" value="yes">
+  <input type="file" name="my_file">
+  <input type="submit" value="Upload">
+</form>
+[% END %]
+
+

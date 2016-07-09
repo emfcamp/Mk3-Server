@@ -28,9 +28,9 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="[% c.uri_for( '/user/programs' ) %]">
+            <li><a href="[% c.uri_for( '/app/' _ c.user.lc_username ) %]">
               <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-              My Programs
+              My Apps
             </a></li>
             <li><a href="[% c.uri_for( '/user/settings' ) %]">
               <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
