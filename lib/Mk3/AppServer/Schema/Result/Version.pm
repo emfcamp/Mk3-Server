@@ -13,6 +13,13 @@ column project_id => {
   data_type => 'int',
 };
 
+column version => {
+  data_type => 'int',
+  default_value => 1,
+};
+
+unique_constraint [ qw/ project_id version / ];
+
 column timestamp => {
   data_type => 'datetime',
 };
