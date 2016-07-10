@@ -22,7 +22,6 @@ Catalyst Controller.
 =head2 index
 
 =cut
-use Data::Dumper;
 
 sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
@@ -78,10 +77,7 @@ sub save_file {
     $c->stash( error => "Unrecognised Archive Type", template => 'error.tt' );
     return;
   }
-  my $class = $c->model('DB::Version');
-  use Devel::Dwarn;
-  Dwarn $class;
-  my $new_version = $class->new_version( $create_hash );
+  my $new_version = $c->model('DB::Version')->new_version( $create_hash );
   $c->stash( create_error => $new_version->{ error } );
 }
 

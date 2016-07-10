@@ -7,7 +7,7 @@ use Archive::Tar;
 use File::Temp ();
 use Path::Class::File ();
 
-use base qw/ DBIx::Class::ResultSet /;
+use base qw/ DBIx::Class::InflateColumn::FS::ResultSet /;
 
 sub new_version {
   my ( $self, $create_hash ) = @_;
@@ -37,9 +37,6 @@ sub _inflate_tar_file {
   } @local_filenames;
 
   $create_hash->{ files } = \@checked_files;
-
-  use Devel::Dwarn;
-  Dwarn $create_hash;
 
   my $result = $self->create( $create_hash );
 
