@@ -24,6 +24,7 @@ requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::InflateColumn::FS';
 requires 'JSON::MaybeXS';
 requires 'Cpanel::JSON::XS';
+requires 'Path::Class::File';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
