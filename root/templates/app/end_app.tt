@@ -8,3 +8,5 @@
   <input type="submit" value="Upload">
 </form>
 [% END %]
+
+[% INCLUDE 'partials/version_block.tt' versions_rs = versions_rs %]

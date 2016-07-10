@@ -33,6 +33,11 @@ sub index :Path :Args(0) {
     if ( defined $app_result ) {
       if ( my $upload = $c->request->upload( 'app_archive' ) ) {
         $self->save_file( $c, $app_result, $upload );
+      } else {
+        $c->stash(
+          error => 'No file uploaded',
+          template => 'error.tt',
+        );
       }
     } else {
       $c->stash(
@@ -78,7 +83,13 @@ sub save_file {
     return;
   }
   my $new_version = $c->model('DB::Version')->new_version( $create_hash );
-  $c->stash( create_error => $new_version->{ error } );
+  if ( exists $new_version->{ error } ) {
+    $c->stash( error => $new_version->{ error }, template => 'error.tt' )
+  } else {
+    $c->res->redirect( $c->uri_for( sprintf(
+      '/app/%s/%s', $c->user->lc_username, $app_result->lc_name
+    )));
+  }
 }
 
 =encoding utf8

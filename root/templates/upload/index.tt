@@ -8,5 +8,3 @@ Upload data:
 <p>[% file_contents %]</p>
 
 <p>[% found_app %]</p>
-
-<ul>[% FOREACH error IN create_error %]<li>[% error.filename %] | [% error.file %]</li>[% END %]</ul>

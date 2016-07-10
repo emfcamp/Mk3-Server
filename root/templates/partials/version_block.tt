@@ -1,0 +1,14 @@
+<ul class="list-group">
+[%- WHILE (version_result = versions_rs.next) %]
+[% PROCESS version_row version_result = version_result %]
+[%- END %]
+</ul>
+
+[%- BLOCK version_row %]
+<li class="list-group-item">
+<h3>
+    Version: [% version_result.version %]
+</h3>
+<p>[% version.description %]</p>
+</li>
+[%- END %]

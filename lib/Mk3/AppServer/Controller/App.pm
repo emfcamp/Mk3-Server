@@ -121,8 +121,14 @@ sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
 
   my $app_result = $c->stash->{ user_result }->projects->find({ lc_name => $appname });
   if ( defined $app_result ) {
+    my $versions_rs = $app_result->search_related_rs(
+      'versions',
+      undef,
+      { order_by => { -desc => 'version' } },
+    );
     $c->stash(
       app_result => $app_result,
+      versions_rs => $versions_rs,
     );
   } else {
     $c->stash(
