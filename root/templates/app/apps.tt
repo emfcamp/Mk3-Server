@@ -1,12 +1,2 @@
 <p>This is the root apps bit</p>
-[%- IF message %]
-<div class="panel panel-default">
-  <div class="panel-heading text-center">
-    [% message %]
-  </div>
-</div>
-[% END -%]
-
-[% WHILE (app_result = apps_rs.next) %]
-<p>[% app_result.user.username %] | [% app_result.name %] | [% app_result.lc_name %]</p>
-[% END %]
+[% INCLUDE 'partials/app_block.tt' app_rs = app_rs %]
