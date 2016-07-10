@@ -1,6 +1,12 @@
+[% IF upload_error %]
+[% END %]
 Upload data:
 [% upload_dump %]
 
 <p>[% upload_error %]</p>
 
 <p>[% file_contents %]</p>
+
+<p>[% found_app %]</p>
+
+<ul>[% FOREACH error IN create_error %]<li>[% error.filename %] | [% error.file %]</li>[% END %]</ul>

@@ -33,4 +33,14 @@ belongs_to(
 
 has_many( 'versions' => 'Mk3::AppServer::Schema::Result::Version', 'project_id' );
 
+sub latest_version {
+  my $self = shift;
+
+  return $self->search_related(
+    'versions',
+    undef,
+    { order_by => { -desc => 'version' } }
+  )->first;
+}
+
 1;

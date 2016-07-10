@@ -2,7 +2,7 @@ package Mk3::AppServer::Schema::Result::Version;
 
 use DBIx::Class::Candy
   -autotable => v1,
-  -components => [ 'InflateColumn::DateTime' ];
+  -components => [ 'InflateColumn::DateTime', 'InflateColumn::FS' ];
 
 primary_column id => {
   data_type => 'int',

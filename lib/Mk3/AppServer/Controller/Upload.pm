@@ -1,5 +1,7 @@
 package Mk3::AppServer::Controller::Upload;
 use Moose;
+use Path::Class::File ();
+use DateTime;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -20,32 +22,25 @@ Catalyst Controller.
 =head2 index
 
 =cut
+use Data::Dumper;
 
 sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
   if ( $c->user_exists ) {
-    if ( $c->request->parameters->{form_submit} eq 'yes' ) {
-      if ( my $upload = $c->request->upload( 'my_file' ) ) {
-        use Data::Dumper;
-        $c->stash( upload_dump => Dumper $upload );
+    my $app_id = $c->request->parameters->{app_id};
+    my $app_result = $c->user->search_related('projects', {id => $app_id })->first;
 
-        if ( $upload->type eq 'application/zip' ) {
-          # *.zip file
-          #$c->model('DB::Version')
-        } elsif ( $upload->type eq 'application/x-tar' ) {
-          # .tar file
-
-        } elsif ( $upload->type eq 'application/gzip' ) {
-          # .tar.gz file
-
-        } elsif ( $upload->type eq 'application/x-compressed-tar' ) {
-          # .tgz file (same as tar.gz file)
-
-        } else {
-          $c->stash( upload_error => "Unrecognised Archive Type" );
-        }
+    if ( defined $app_result ) {
+      if ( my $upload = $c->request->upload( 'app_archive' ) ) {
+        $self->save_file( $c, $app_result, $upload );
       }
+    } else {
+      $c->stash(
+        error => 'You dont own that app, you cannot upload a new version to it!',
+        template => 'error.tt',
+      );
+      $c->res->status(404);
     }
   } else {
     $c->res->redirect( $c->uri_for( '/' ) );
@@ -53,7 +48,42 @@ sub index :Path :Args(0) {
 
 }
 
+sub save_file {
+  my ( $self, $c, $app_result, $upload ) = @_;
+  $c->stash( upload_dump => Dumper $upload );
 
+  my $latest_version = $app_result->latest_version;
+  my $version_num = defined $latest_version ? $latest_version->version + 1 : 1;
+
+  my $create_hash = {
+    project_id => $app_result->id,
+    version => $version_num,
+    description => '',
+    timestamp => DateTime->now,
+  };
+  my $file = Path::Class::File->new( $upload->tempname );
+  if ( $upload->type eq 'application/zip' ) {
+    # *.zip file
+    $create_hash->{ zip_file } = $file;
+  } elsif ( $upload->type eq 'application/x-tar' ) {
+    # .tar file
+    $create_hash->{ tar_file } = $file;
+  } elsif ( $upload->type eq 'application/gzip' ) {
+    # .tar.gz file
+    $create_hash->{ gz_file } = $file;
+  } elsif ( $upload->type eq 'application/x-compressed-tar' ) {
+    # .tgz file (same as tar.gz file)
+    $create_hash->{ gz_file } = $file;
+  } else {
+    $c->stash( error => "Unrecognised Archive Type", template => 'error.tt' );
+    return;
+  }
+  my $class = $c->model('DB::Version');
+  use Devel::Dwarn;
+  Dwarn $class;
+  my $new_version = $class->new_version( $create_hash );
+  $c->stash( create_error => $new_version->{ error } );
+}
 
 =encoding utf8
 

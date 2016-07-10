@@ -3,10 +3,8 @@
 
 [% IF c.user_exists && owner %]
 <form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="form_submit" value="yes">
-  <input type="file" name="my_file">
+  <input type="hidden" name="app_id" value="[% app_result.id %]">
+  <input type="file" name="app_archive" required>
   <input type="submit" value="Upload">
 </form>
 [% END %]
-
-
