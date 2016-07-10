@@ -25,7 +25,7 @@ requires 'DBIx::Class::InflateColumn::FS';
 requires 'JSON::MaybeXS';
 requires 'Cpanel::JSON::XS';
 requires 'Path::Class::File';
-requires 'IO::Zlib';
+requires 'Archive::Extract';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';

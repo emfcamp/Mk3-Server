@@ -3,7 +3,7 @@ package Mk3::AppServer::Schema::ResultSet::Version;
 use strict;
 use warnings;
 
-use Archive::Tar;
+use Archive::Extract;
 use File::Temp ();
 use Path::Class::File ();
 
@@ -16,27 +16,29 @@ sub new_version {
     return $self->_inflate_tar_file( $create_hash );
   } elsif ( defined $create_hash->{ gz_file } ) {
     return $self->_inflate_gz_file( $create_hash );
+  } elsif ( defined $create_hash->{ zip_file } ) {
+    return $self->_inflate_zip_file( $create_hash );
   }
 }
 
 sub _inflate_tar_file {
   my ( $self, $create_hash, $tar_file ) = @_;
 
-  my $tar = Archive::Tar->new( $tar_file || $create_hash->{ tar_file } );
-  return { result => undef, error => 'Not a valid Tar File' } unless defined $tar;
+  my $tar = Archive::Extract->new( archive => $tar_file || $create_hash->{ tar_file } );
+  return { error => 'Not a valid Archive' } unless defined $tar;
 
   my $tempdir = File::Temp->newdir;
 
-  $tar->setcwd( $tempdir->dirname );
+  return { error => 'Error opening Archive' } unless $tar->extract( to => $tempdir->dirname );
 
-  my @local_filenames = $tar->extract;
+  my $local_filenames = $tar->files;
 
   my @checked_files = map {
     {
-      filename => $_->full_path,
-      file => Path::Class::File->new( $tempdir->dirname . '/' . $_->full_path ),
+      filename => $_,
+      file => Path::Class::File->new( $tempdir->dirname . '/' . $_ ),
     }
-  } @local_filenames;
+  } @$local_filenames;
 
   $create_hash->{ files } = \@checked_files;
 
@@ -49,6 +51,12 @@ sub _inflate_gz_file {
   my ( $self, $create_hash ) = @_;
 
   return $self->_inflate_tar_file( $create_hash, $create_hash->{ gz_file } );
+}
+
+sub _inflate_zip_file {
+  my ( $self, $create_hash ) = @_;
+
+  return $self->_inflate_tar_file( $create_hash, $create_hash->{ zip_file } );
 }
 
 1;

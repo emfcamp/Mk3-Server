@@ -40,6 +40,21 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.008008
+  Archive-Extract-0.76
+    pathname: B/BI/BINGOS/Archive-Extract-0.76.tar.gz
+    provides:
+      Archive::Extract 0.76
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Path 0
+      File::Spec 0.82
+      IPC::Cmd 0.64
+      Locale::Maketext::Simple 0
+      Module::Load::Conditional 0.04
+      Params::Check 0.07
+      Test::More 0
+      if 0
   Authen-DecHpwd-2.006
     pathname: Z/ZE/ZEFRAM/Authen-DecHpwd-2.006.tar.gz
     provides:
