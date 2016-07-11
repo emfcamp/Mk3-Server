@@ -22,7 +22,12 @@
 </div>
 
 <ul>
-[% WHILE (file_result = files_rs.next) %]
-  <li>[% file_result.filename %]</li>
-[% END %]
+[%- WHILE (file_result = files_rs.next) %]
+[%- user_link = "/app/${version_result.project.user.lc_username}"
+    app_link = "${user_link}/${version_result.project.lc_name}"
+    version_link = "${app_link}/${version_result.version}"
+    file_link = "${version_link}/get/file/${file_result.filename}"
+-%]
+  <li><a href="[% c.uri_for( file_link ) %]">[% file_result.filename %]</a></li>
+[%- END %]
 </ul>
