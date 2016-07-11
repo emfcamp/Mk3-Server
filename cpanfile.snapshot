@@ -55,6 +55,37 @@ DISTRIBUTIONS
       Params::Check 0.07
       Test::More 0
       if 0
+  Archive-Zip-1.57
+    pathname: P/PH/PHRED/Archive-Zip-1.57.tar.gz
+    provides:
+      Archive::Zip 1.57
+      Archive::Zip::Archive 1.57
+      Archive::Zip::BufferedFileHandle 1.57
+      Archive::Zip::DirectoryMember 1.57
+      Archive::Zip::FileMember 1.57
+      Archive::Zip::Member 1.57
+      Archive::Zip::MemberRead 1.57
+      Archive::Zip::MockFileHandle 1.57
+      Archive::Zip::NewFileMember 1.57
+      Archive::Zip::StringMember 1.57
+      Archive::Zip::Tree 1.57
+      Archive::Zip::ZipFileMember 1.57
+    requirements:
+      Compress::Raw::Zlib 2.017
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Copy 0
+      File::Find 0
+      File::Path 0
+      File::Spec 0.80
+      File::Temp 0
+      IO::File 0
+      IO::Handle 0
+      IO::Seekable 0
+      Test::MockModule 0
+      Test::More 0.88
+      Time::Local 0
+      perl 5.006
   Authen-DecHpwd-2.006
     pathname: Z/ZE/ZEFRAM/Authen-DecHpwd-2.006.tar.gz
     provides:
@@ -1889,6 +1920,21 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.11
       File::Spec 0
       IO::Dir 0
+  File-chdir-0.1010
+    pathname: D/DA/DAGOLDEN/File-chdir-0.1010.tar.gz
+    provides:
+      File::chdir 0.1010
+      File::chdir::ARRAY 0.1010
+      File::chdir::SCALAR 0.1010
+    requirements:
+      Carp 0
+      Cwd 3.16
+      Exporter 0
+      ExtUtils::MakeMaker 6.17
+      File::Spec::Functions 3.27
+      perl 5.006
+      strict 0
+      vars 0
   Filesys-Notify-Simple-0.12
     pathname: M/MI/MIYAGAWA/Filesys-Notify-Simple-0.12.tar.gz
     provides:
@@ -3927,6 +3973,15 @@ DISTRIBUTIONS
       XML::Writer 0.500
       YAML 0.66
       perl 5.008001
+  SUPER-1.20141117
+    pathname: C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
+    provides:
+      SUPER 1.20141117
+    requirements:
+      Scalar::Util 1.20
+      Sub::Identify 0.03
+      Test::Simple 0.61
+      perl v5.6.2
   Safe-Isa-1.000005
     pathname: E/ET/ETHER/Safe-Isa-1.000005.tar.gz
     provides:
@@ -4327,6 +4382,17 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Builder 0.12
       Test::Builder::Tester 1.04
+  Test-MockModule-0.11
+    pathname: G/GF/GFRANKS/Test-MockModule-0.11.tar.gz
+    provides:
+      Test::MockModule 0.11
+    requirements:
+      Carp 0
+      Module::Build 0.38
+      SUPER 0
+      Scalar::Util 0
+      Test::More 0.45
+      perl 5.006
   Test-NoWarnings-1.04
     pathname: A/AD/ADAMK/Test-NoWarnings-1.04.tar.gz
     provides:

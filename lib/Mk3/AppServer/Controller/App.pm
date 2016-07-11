@@ -144,7 +144,7 @@ sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
   }
 }
 
-sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
+sub chain_version :Chained('chain_app') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $version ) = @_;
 
   if ( defined ( my $app_result = $c->stash->{ app_result } ) ) {
@@ -153,14 +153,8 @@ sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
       { version => $version },
     )->first;
     if ( defined $version_result ) {
-      my $files_rs = $version_result->search_related_rs(
-        'files',
-        undef,
-        { order_by => { -asc => 'filename' } },
-      );
       $c->stash(
         version_result => $version_result,
-        files_rs => $files_rs,
       );
     } else {
       $c->stash(
@@ -168,6 +162,20 @@ sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
         error => 'Version does not exist for this app',
       );
     }
+  }
+}
+
+sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
+  my ( $self, $c, $version ) = @_;
+
+  $self->chain_version( $c, $version );
+  if ( defined ( my $version_result = $c->stash->{ version_result } ) ) {
+    my $files_rs = $version_result->search_related_rs(
+      'files',
+      undef,
+      { order_by => { -asc => 'filename' } },
+    );
+    $c->stash( files_rs => $files_rs );
   }
 }
 

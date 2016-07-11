@@ -26,6 +26,9 @@ requires 'JSON::MaybeXS';
 requires 'Cpanel::JSON::XS';
 requires 'Path::Class::File';
 requires 'Archive::Extract';
+requires 'File::chdir';
+requires 'Archive::Tar';
+requires 'Archive::Zip';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';

@@ -5,9 +5,13 @@
 </ul>
 
 [%- BLOCK version_row %]
+[%- user_link = "/app/${version_result.project.user.lc_username}"
+    app_link = "${user_link}/${version_result.project.lc_name}"
+    version_link = "${app_link}/${version_result.version}"
+-%]
 <li class="list-group-item">
 <h3>
-    Version: <a href="[% c.uri_for( '/app/' _ version_result.project.user.lc_username _ '/' _ version_result.project.lc_name _ '/' _ version_result.version ) %]">[% version_result.version %]</a>
+    Version: <a href="[% c.uri_for( version_link ) %]">[% version_result.version %]</a>
 </h3>
 <p>[% version.description %]</p>
 </li>

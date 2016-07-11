@@ -5,11 +5,14 @@
 </ul>
 
 [%- BLOCK app_row %]
+[%- user_link = "/app/${app_result.user.lc_username}"
+    app_link = "${user_link}/${app_result.lc_name}"
+-%]
 <li class="list-group-item">
 <h3>
-  <a href="[% c.uri_for( '/app/' _ app_result.user.lc_username ) %]">[% app_result.user.username %]</a>
+  <a href="[% c.uri_for( user_link ) %]">[% app_result.user.username %]</a>
   <span>/</span>
-  <a href="[% c.uri_for( '/app/' _ app_result.user.lc_username _ '/' _ app_result.lc_name ) %]">[% app_result.name %]</a>
+  <a href="[% c.uri_for( app_link ) %]">[% app_result.name %]</a>
 </h3>
 <p>[% app_result.description %]</p>
 </li>

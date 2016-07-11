@@ -2,6 +2,25 @@
 <h2>App: [% app_result.name %]</h2>
 <h3>Version: [% version_result.version %]</h3>
 
+[%- user_link = "/app/${user_result.lc_username}"
+    app_link = "${user_link}/${app_result.lc_name}"
+    version_link = "${app_link}/${version_result.version}"
+    zip_link = "${version_link}/get/archive/zip"
+    tgz_link = "${version_link}/get/archive/tgz"
+    tar_link = "${version_link}/get/archive/tar"
+-%]
+
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Download Archive <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="[% c.uri_for( zip_link ) %]">Zip</a></li>
+    <li><a href="[% c.uri_for( tar_link ) %]">Tar</a></li>
+    <li><a href="[% c.uri_for( tgz_link ) %]">Gzipped Tar</a></li>
+  </ul>
+</div>
+
 <ul>
 [% WHILE (file_result = files_rs.next) %]
   <li>[% file_result.filename %]</li>
