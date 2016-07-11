@@ -1,5 +1,7 @@
 package Mk3::AppServer::Controller::App::Get;
 use Moose;
+use File::Spec;
+use MIME::Types;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -74,6 +76,31 @@ sub end_archive :Chained('chain_get') :PathPart('archive') :Args(1) {
       $c->stash(
         template => 'error.tt',
         error => 'Unrecognised Archive type',
+      );
+    }
+  }
+}
+
+sub end_file :Chained('chain_get') :PathPart('file') :Args {
+  my ( $self, $c, @filepath ) = @_;
+
+  if ( defined ( my $version_result = $c->stash->{ version_result } ) ) {
+    my $search_filename = File::Spec->catfile( @filepath );
+    my $file_result = $version_result->search_related(
+      'files',
+      { filename => $search_filename },
+    )->first;
+    if ( defined $file_result ) {
+      my $file = $file_result->file;
+      my $filename = $file_result->filename;
+      my $mime_type = MIME::Types->new->mimeTypeOf( $filename );
+      $c->res->content_type( $mime_type->type );
+      $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
+      $c->res->body( $file->openr );
+    } else {
+      $c->stash(
+        template => 'error.tt',
+        error => 'File does not exist',
       );
     }
   }

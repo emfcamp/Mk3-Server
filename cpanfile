@@ -29,6 +29,7 @@ requires 'Archive::Extract';
 requires 'File::chdir';
 requires 'Archive::Tar';
 requires 'Archive::Zip';
+requires 'MIME::Types';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
