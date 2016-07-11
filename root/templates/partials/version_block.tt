@@ -7,7 +7,7 @@
 [%- BLOCK version_row %]
 <li class="list-group-item">
 <h3>
-    Version: [% version_result.version %]
+    Version: <a href="[% c.uri_for( '/app/' _ version_result.project.user.lc_username _ '/' _ version_result.project.lc_name _ '/' _ version_result.version ) %]">[% version_result.version %]</a>
 </h3>
 <p>[% version.description %]</p>
 </li>

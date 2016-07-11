@@ -108,7 +108,6 @@ sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
   $self->chain_user( $c, $username );
   if ( defined ( my $user_result = $c->stash->{ user_result } ) ) {
     $c->stash(
-      thing => 1,
       apps_rs => $user_result->search_related_rs( 'projects', undef,
         { order_by => { -asc => 'lc_name' } }
       ),
@@ -116,26 +115,59 @@ sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
   }
 }
 
-sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
+sub chain_app :Chained('chain_user') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $appname ) = @_;
 
   my $app_result = $c->stash->{ user_result }->projects->find({ lc_name => $appname });
   if ( defined $app_result ) {
-    my $versions_rs = $app_result->search_related_rs(
-      'versions',
-      undef,
-      { order_by => { -desc => 'version' } },
-    );
-    $c->stash(
-      app_result => $app_result,
-      versions_rs => $versions_rs,
-    );
+    $c->stash( app_result => $app_result );
   } else {
     $c->stash(
       template => 'error.tt',
       error => 'That app does not exist',
     );
     $c->res->status(404);
+  }
+}
+
+sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
+  my ( $self, $c, $appname ) = @_;
+
+  $self->chain_app( $c, $appname );
+  if ( defined ( my $app_result = $c->stash->{ app_result } ) ) {
+    my $versions_rs = $app_result->search_related_rs(
+      'versions',
+      undef,
+      { order_by => { -desc => 'version' } },
+    );
+    $c->stash( versions_rs => $versions_rs );
+  }
+}
+
+sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
+  my ( $self, $c, $version ) = @_;
+
+  if ( defined ( my $app_result = $c->stash->{ app_result } ) ) {
+    my $version_result = $app_result->search_related_rs(
+      'versions',
+      { version => $version },
+    )->first;
+    if ( defined $version_result ) {
+      my $files_rs = $version_result->search_related_rs(
+        'files',
+        undef,
+        { order_by => { -asc => 'filename' } },
+      );
+      $c->stash(
+        version_result => $version_result,
+        files_rs => $files_rs,
+      );
+    } else {
+      $c->stash(
+        template => 'error.tt',
+        error => 'Version does not exist for this app',
+      );
+    }
   }
 }
 

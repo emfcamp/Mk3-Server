@@ -1,0 +1,9 @@
+<h1>[% user_result.username %]</h1>
+<h2>App: [% app_result.name %]</h2>
+<h3>Version: [% version_result.version %]</h3>
+
+<ul>
+[% WHILE (file_result = files_rs.next) %]
+  <li>[% file_result.filename %]</li>
+[% END %]
+</ul>
