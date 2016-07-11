@@ -7,8 +7,9 @@
 [%- BLOCK app_row %]
 <li class="list-group-item">
 <h3>
-  <a href="[% c.uri_for( '/app/' _ app_result.user.lc_username _ '/' _ app_result.lc_name ) %]">
-    [% app_result.user.username %] / [% app_result.name %]
+  <a href="[% c.uri_for( '/app/' _ app_result.user.lc_username ) %]">[% app_result.user.username %]</a>
+  <span>/</span>
+  <a href="[% c.uri_for( '/app/' _ app_result.user.lc_username _ '/' _ app_result.lc_name ) %]">[% app_result.name %]</a>
 </h3>
 <p>[% app_result.description %]</p>
 </li>
