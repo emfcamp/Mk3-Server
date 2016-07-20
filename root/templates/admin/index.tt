@@ -1,1 +1,32 @@
-Main Admin Page
+<ul class="list-group">
+[%- WHILE (version_result = new_apps_rs.next) %]
+[% PROCESS aprove_row version_result = version_result %]
+[%- END %]
+</ul>
+
+[%- BLOCK aprove_row %]
+[%- user_link = "/app/${version_result.project.user.lc_username}"
+    app_link = "${user_link}/${version_result.project.lc_name}"
+    version_link = "${app_link}/${version_result.version}"
+    allow_link = "/admin/allow/${version_result.id}"
+    reject_link = "/admin/reject/${version_result.id}"
+-%]
+<li class="list-group-item">
+<h3>
+  <a href="[% c.uri_for( user_link ) %]">[% version_result.project.user.username %]</a>
+  <span>/</span>
+  <a href="[% c.uri_for( app_link ) %]">[% version_result.project.name %]</a>
+  <span>/</span>
+  <a href="[% c.uri_for( version_link ) %]">[% version_result.version %]</a>
+  <div class="pull-right btn-group">
+    <a class="btn btn-success" href="[% c.uri_for( allow_link ) %]">Allow</a>
+    <a class="btn btn-danger" href="[%c.uri_for( reject_link ) %]">Reject</a>
+  </div>
+</h3>
+<h4>App Description</h4>
+<p>[% version_result.project.description %]</p>
+<hr />
+<h4>Version Description</h4>
+<p>[% version_result.description %]</p>
+</li>
+[%- END %]

@@ -32,9 +32,33 @@ sub auto :Private {
 sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
+  my $new_apps_rs = $c->model('DB::Version')->search(
+    { status => 'new' },
+    { order_by => { -desc => 'timestamp' } },
+  );
+
+  $c->stash( new_apps_rs => $new_apps_rs );
 }
 
+sub allow :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
 
+  my $version = $c->model('DB::Version')->find( $id );
+  if ( defined $version ) {
+    $version->allow;
+  }
+  $c->res->redirect( $c->uri_for( '/admin' ) );
+}
+
+sub reject :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
+
+  my $version = $c->model('DB::Version')->find( $id );
+  if ( defined $version ) {
+    $version->reject;
+  }
+  $c->res->redirect( $c->uri_for( '/admin' ) );
+}
 
 =encoding utf8
 
