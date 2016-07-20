@@ -24,6 +24,7 @@ use Catalyst qw/
   Session::Store::FastMmap
   Session::State::Cookie
   Authentication
+  Authorization::Roles
 /;
 
 extends 'Catalyst';
@@ -62,6 +63,8 @@ __PACKAGE__->config(
       store => {
         class => 'DBIx::Class',
         user_model => 'DB::User',
+        role_relation => 'roles',
+        role_field => 'name',
       },
     },
   },
