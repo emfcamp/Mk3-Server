@@ -43,6 +43,13 @@ sub register_post :Path :Args(0) POST {
       email => $email,
       template => 'register/index.tt',
     );
+  } elsif ( length $username > 25 ) {
+    $c->stash(
+      error    => 'Username must be 25 characters or less',
+      username => $username,
+      email    => $email,
+      template => 'register/index.tt',
+    );
   } elsif ( $user_rs->find({ username => $username }) ) {
     $c->stash(
       error    => 'Username already exists',
