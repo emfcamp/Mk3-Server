@@ -43,5 +43,7 @@ column set_password_code => {
 };
 
 has_many( 'projects' => 'Mk3::AppServer::Schema::Result::Project', 'user_id' );
+has_many( 'user_roles' => 'Mk3::AppServer::Schema::Result::UserRole', 'user_id' );
+many_to_many( 'roles' => 'user_roles', 'role' );
 
 1;
