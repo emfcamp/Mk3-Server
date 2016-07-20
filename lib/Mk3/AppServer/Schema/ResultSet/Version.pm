@@ -5,6 +5,7 @@ use warnings;
 
 use Archive::Extract;
 use File::Temp ();
+use File::Spec;
 use Path::Class::File ();
 
 use base qw/ DBIx::Class::InflateColumn::FS::ResultSet /;
@@ -33,10 +34,12 @@ sub _inflate_tar_file {
 
   my $local_filenames = $tar->files;
 
+  return { error => 'Must be a flat file structure' } if grep(/\//, @$local_filenames);
+
   my @checked_files = map {
     {
       filename => $_,
-      file => Path::Class::File->new( $tempdir->dirname . '/' . $_ ),
+      file => Path::Class::File->new( File::Spec->catfile( $tempdir->dirname, $_ ) ),
     }
   } @$local_filenames;
 
