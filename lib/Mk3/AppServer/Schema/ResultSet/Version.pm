@@ -35,6 +35,7 @@ sub _inflate_tar_file {
   my $local_filenames = $tar->files;
 
   return { error => 'Must be a flat file structure' } if grep(/\//, @$local_filenames);
+  return { error => 'Filenames must not contain any whitespace' } if grep(/\s/, @$local_filenames);
 
   my @checked_files = map {
     {
