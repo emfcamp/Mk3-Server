@@ -22,6 +22,7 @@ requires 'Catalyst::Plugin::Authentication';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::InflateColumn::FS';
+requires 'Catalyst::View::JSON';
 requires 'JSON::MaybeXS';
 requires 'Cpanel::JSON::XS';
 requires 'Path::Class::File';

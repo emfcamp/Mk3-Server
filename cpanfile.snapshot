@@ -641,6 +641,19 @@ DISTRIBUTIONS
       namespace::autoclean 0.28
       namespace::clean 0.23
       perl 5.008003
+  Catalyst-View-JSON-0.36
+    pathname: J/JJ/JJNAPIORK/Catalyst-View-JSON-0.36.tar.gz
+    provides:
+      Catalyst::Helper::View::JSON undef
+      Catalyst::View::JSON 0.36
+    requirements:
+      Catalyst 5.6
+      ExtUtils::MakeMaker 6.59
+      JSON::MaybeXS 1.003000
+      MRO::Compat 0
+      Test::More 0
+      YAML 0
+      perl 5.008001
   Catalyst-View-TT-0.44
     pathname: E/ET/ETHER/Catalyst-View-TT-0.44.tar.gz
     provides:
