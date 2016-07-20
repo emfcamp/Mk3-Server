@@ -14,7 +14,7 @@ exit Daemon::Control->new(
     lsb_desc    => 'Init script for the MK3 Appserver fo EMF Camp',
  
     program     => "su -l $ENV{USER} $Bin/mk3_appserver_server.pl",
-    program_args => [ qw/ -p 5000 / ],
+    program_args => [ qw/ -p 5000 -h localhost / ],
  
     pid_file    => "$Bin/../../mk3appserver.pid",
     stderr_file => "$Bin/../../mk3appserver.err",
