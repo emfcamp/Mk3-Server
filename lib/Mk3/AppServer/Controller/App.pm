@@ -42,10 +42,14 @@ sub add :Local :Args(0) {
   my $app_name = $c->req->body_params->{ app_name };
 
   if ( $c->user_exists ) {
-    unless( $app_name =~ /^[\w\- ]+$/ ) {
+    unless( $app_name =~ /^[\w\-]+$/ ) {
       $c->stash(
-        error => 'App name can only contain alphanumeric characters,'
-                 . " spaces, '-' and '_'",
+        error => "App name can only contain alphanumeric characters, '-' and '_'",
+        app_name => $app_name,
+      );
+    } elsif ( length $app_name > 10 ) {
+      $c->stash(
+        error => "App name must be 10 characters or less",
         app_name => $app_name,
       );
     } elsif ( $c->user->projects->find({ name => $app_name }) ) {
