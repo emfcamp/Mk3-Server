@@ -56,6 +56,13 @@ column gz_file => {
   is_nullable => 1,
 };
 
+# new, allowed, rejected
+column status => {
+  data_type => 'varchar',
+  default_value => 'new',
+  size => '10',
+};
+
 belongs_to(
   'project' => 'Mk3::AppServer::Schema::Result::Project',
   { 'foreign.id' => 'self.project_id' },
@@ -153,6 +160,22 @@ sub _copy_files {
   }
 
   return @files;
+}
+
+sub allow {
+  my ( $self ) = @_;
+  
+  $self->status( 'allowed' );
+  $self->update;
+  return $self;
+}
+
+sub reject {
+  my ( $self ) = @_;
+
+  $self->status( 'rejected' );
+  $self->update;
+  return $self;
 }
 
 1;
