@@ -32,7 +32,6 @@ sub auto :Private {
 sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
-  $c->response->body('Matched Mk3::AppServer::Controller::Admin in Admin.');
 }
 
 
