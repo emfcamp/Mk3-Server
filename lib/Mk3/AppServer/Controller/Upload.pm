@@ -69,6 +69,9 @@ sub save_file {
   if ( $upload->type eq 'application/zip' ) {
     # *.zip file
     $create_hash->{ zip_file } = $file;
+  } elsif ( $upload->type eq 'application/x-zip-compressed' ) {
+    # *.zip file
+    $create_hash->{ zip_file } = $file;
   } elsif ( $upload->type eq 'application/x-tar' ) {
     # .tar file
     $create_hash->{ tar_file } = $file;
