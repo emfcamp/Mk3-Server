@@ -51,10 +51,9 @@ sub index :Path :Args(0) {
   }
 
 }
-use Data::Dumper;
+
 sub save_file {
   my ( $self, $c, $app_result, $upload ) = @_;
-  $c->stash( upload_dump => Dumper $upload );
 
   my $latest_version = $app_result->latest_version;
   my $version_num = defined $latest_version ? $latest_version->version + 1 : 1;
