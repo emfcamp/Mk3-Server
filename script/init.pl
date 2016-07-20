@@ -13,7 +13,7 @@ exit Daemon::Control->new(
     lsb_sdesc   => 'MK3 AppServer init',
     lsb_desc    => 'Init script for the MK3 Appserver fo EMF Camp',
  
-    program     => "su -l $ENV{USER} $Bin/mk3_appserver_server.pl",
+    program     => "sudo -iu $ENV{USER} $Bin/mk3_appserver_server.pl",
     program_args => [ qw/ -p 5000 -h localhost / ],
  
     pid_file    => "$Bin/../../mk3appserver.pid",
