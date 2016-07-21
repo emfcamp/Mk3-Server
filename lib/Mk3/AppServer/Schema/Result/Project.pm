@@ -33,6 +33,27 @@ belongs_to(
 
 has_many( 'versions' => 'Mk3::AppServer::Schema::Result::Version', 'project_id' );
 
+column latest_allowed_version => {
+  data_type => 'int',
+  is_nullable => 1,
+};
+
+sub set_latest_allowed_version {
+  my $self = shift;
+
+  my $latest_allowed_version = $self->search_related(
+    'versions',
+    { status => 'allowed' },
+    { order_by => { -desc => 'version' } },
+  )->first;
+  
+  if ( defined $latest_allowed_version ) {
+    $self->latest_allowed_version( $latest_allowed_version->id );
+    $self->update;
+  }
+  return $self;
+}
+
 sub latest_version {
   my $self = shift;
 
