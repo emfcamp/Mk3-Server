@@ -80,3 +80,15 @@ CATALYST_DEBUG=1 ./vendor/bin/carton exec script/mk3_appserver_server.pl -r
 This will install all the dependencies, install a local SQLite database, and
 then start up a local testing server in debug mode, which will automatically
 reload on any changes to the codebase.
+
+# Bugs
+
+If, when you are trying to get Carton to install the deps, you get some weird
+error about File::Spec versions, then bootstrap a new local perl5 lib, and just
+use the carton from there:
+
+```
+curl -L https://cpanmin.us/ | perl - App::cpanminus Carton local::lib --local-lib=~/perl5
+echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+```
+
