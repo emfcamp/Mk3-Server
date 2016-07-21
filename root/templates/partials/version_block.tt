@@ -13,6 +13,13 @@
 <h3>
     Version: <a href="[% c.uri_for( version_link ) %]">[% version_result.version %]</a>
 </h3>
-<p>[% version.description %]</p>
+[%- IF version_result.status == 'new' %]
+This version has not been checked yet
+[%- ELSIF version_result.status == 'allowed' %]
+This version has been approved
+[%- ELSE %]
+This version has been rejected
+[% END %]
+<p>[% version_result.description %]</p>
 </li>
 [%- END %]

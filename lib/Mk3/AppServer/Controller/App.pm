@@ -159,9 +159,12 @@ sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
 
   $self->chain_app( $c, $appname );
   if ( defined ( my $app_result = $c->stash->{ app_result } ) ) {
+    my $where_clause = $c->stash->{ owner }
+      ? undef
+      : { status => 'allowed' };
     my $versions_rs = $app_result->search_related_rs(
       'versions',
-      undef,
+      $where_clause,
       { order_by => { -desc => 'version' } },
     );
     $c->stash( versions_rs => $versions_rs );
