@@ -14,6 +14,11 @@
   <span>/</span>
   <a href="[% c.uri_for( app_link ) %]">[% app_result.name %]</a>
 </h3>
+[%- IF app_result.latest_allowed_version %]
+This app has an approved version!
+[%- ELSE %]
+This app has no approved versions
+[%- END %]
 <p>[% app_result.description %]</p>
 </li>
 [%- END %]

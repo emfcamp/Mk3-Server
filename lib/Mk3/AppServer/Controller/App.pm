@@ -30,9 +30,26 @@ sub index :Path :Args(0) {
 sub apps :Path('/apps') :Args(0) {
   my ( $self, $c ) = @_;
 
-  my $apps_rs = $c->model( 'DB::Project' )->search( undef,
-    { order_by => { -asc => 'lc_name' } }
+  my $app_where_clause = {
+    'latest_allowed_version' => { '!=' => undef },
+  };
+
+  if ( $c->user_exists ) {
+    $app_where_clause = {
+      '-or' => {
+        'user_id' => $c->user->id,
+        %$app_where_clause,
+      }
+    };
+  }
+
+  my $apps_rs = $c->model( 'DB::Project' )->search(
+    $app_where_clause,
+    {
+      order_by => { -asc => 'lc_name' },
+    },
   );
+
   $c->stash( apps_rs => $apps_rs );
 }
 
