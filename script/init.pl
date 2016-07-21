@@ -13,6 +13,7 @@ exit Daemon::Control->new(
     lsb_sdesc   => 'MK3 AppServer init',
     lsb_desc    => 'Init script for the MK3 Appserver fo EMF Camp',
  
+    init_code   => "eval \$(perl -I $ENV{HOME}/perl5/lib/perl5/ -Mlocal::lib)",
     program     => "sudo -iu $ENV{USER} $Bin/mk3_appserver_server.pl",
     program_args => [ qw/ -p 5000 -h localhost / ],
  
