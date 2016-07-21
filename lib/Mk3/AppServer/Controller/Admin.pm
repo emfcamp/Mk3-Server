@@ -60,6 +60,35 @@ sub reject :Local :Args(1) {
   $c->res->redirect( $c->uri_for( '/admin' ) );
 }
 
+sub users :Local {
+  my ( $self, $c ) = @_;
+
+  my $users_rs = $c->model('DB::User');
+  $c->stash( users_rs => $users_rs );
+}
+
+sub give_admin :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
+
+  my $user = $c->model('DB::User')->find( $id );
+  if ( defined $user ) {
+    my $role = $c->model('DB::Role')->find({ name => 'admin' });
+    $user->find_or_create_related('user_roles', { role_id => $role->id });
+  }
+  $c->res->redirect( $c->uri_for( '/admin/users' ) );
+}
+
+sub take_admin :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
+
+  my $user = $c->model('DB::User')->find( $id );
+  if ( defined $user ) {
+    my $role = $c->model('DB::Role')->find({ name => 'admin' });
+    $user->delete_related('user_roles', { role_id => $role->id });
+  }
+  $c->res->redirect( $c->uri_for( '/admin/users' ) );
+}
+
 =encoding utf8
 
 =head1 AUTHOR

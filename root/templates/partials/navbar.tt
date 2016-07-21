@@ -17,9 +17,29 @@
         <li><a href="[% c.uri_for( '/apps' ) %]">Apps</a></li>
         [%- IF c.user_exists %]
         [%- IF c.check_user_roles('admin') %]
-        <li><a href="[% c.uri_for( '/admin' ) %]">
-          Admin
-        </a></li>
+        <li class="dropdown">
+          <a
+            href="#"
+            class="user-dropdown"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            <span class="glyphicon glyphicon-exclamation-sign" sr-only="Admin Menu"></span>
+            Admin
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="[% c.uri_for( '/admin' ) %]">
+              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+              App Admin
+            </a></li>
+            <li><a href="[% c.uri_for( '/admin/users' ) %]">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              User Admin
+            </a></li>
+          </ul>
+        </li>
         [%- END %]
         <li class="dropdown">
           <a

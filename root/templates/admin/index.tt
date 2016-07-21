@@ -4,6 +4,12 @@
 [%- END %]
 </ul>
 
+<div class="jumbotron text-center">
+<h3>
+No More Apps to Check!
+</h3>
+</div>
+
 [%- BLOCK aprove_row %]
 [%- user_link = "/app/${version_result.project.user.lc_username}"
     app_link = "${user_link}/${version_result.project.lc_name}"

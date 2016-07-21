@@ -1,0 +1,26 @@
+<ul class="list-group">
+[%- WHILE (user_result = users_rs.next) %]
+[% PROCESS user_row user_result = user_result %]
+[%- END %]
+</ul>
+
+[%- BLOCK user_row %]
+[%- user_link = "/app/${user_result.lc_username}"
+    give_admin_link = "/admin/give_admin/${user_result.id}"
+    take_admin_link = "/admin/take_admin/${user_result.id}"
+-%]
+<li class="list-group-item">
+<h3>
+  <a href="[% c.uri_for( user_link ) %]">[% user_result.username %]</a>
+  <div class="pull-right">
+    [%- IF user_result.id != c.user.id %]
+    [%- IF c.check_user_roles( c.find_user({id = user_result.id}), 'admin' ) %]
+    <a class="btn btn-danger" href="[% c.uri_for( take_admin_link ) %]">Take Admin</a>
+    [%- ELSE %]
+    <a class="btn btn-success" href="[% c.uri_for( give_admin_link ) %]">Give Admin</a>
+    [%- END %]
+    [%- END %]
+  </div>
+</h3>
+</li>
+[%- END %]
