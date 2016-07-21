@@ -128,8 +128,11 @@ sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
 
   $self->chain_user( $c, $username );
   if ( defined ( my $user_result = $c->stash->{ user_result } ) ) {
+    my $where_clause = $c->stash->{ owner }
+      ? undef
+      : { latest_allowed_version => { '!=' => undef } };
     $c->stash(
-      apps_rs => $user_result->search_related_rs( 'projects', undef,
+      apps_rs => $user_result->search_related_rs( 'projects', $where_clause,
         { order_by => { -asc => 'lc_name' } }
       ),
     );
