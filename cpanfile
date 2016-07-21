@@ -19,6 +19,7 @@ requires 'Catalyst::Plugin::Session';
 requires 'Catalyst::Plugin::Session::Store::FastMmap';
 requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Plugin::Authentication';
+requires 'Catalyst::Plugin::Authorization::Roles';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::InflateColumn::FS';
@@ -31,6 +32,11 @@ requires 'File::chdir';
 requires 'Archive::Tar';
 requires 'Archive::Zip';
 requires 'MIME::Types';
+requires 'Daemon::Control';
+requires 'DateTime';
+requires 'DBIx::Class::Schema::Loader';
+requires 'DateTime::Format::SQLite';
+requires 'Starman';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
