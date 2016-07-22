@@ -1,5 +1,9 @@
 package Mk3::AppServer::Controller::Admin;
 use Moose;
+use LWP::UserAgent;
+use File::Temp;
+use Archive::Extract;
+use IO::All;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -15,6 +19,11 @@ Catalyst Controller.
 =head1 METHODS
 
 =cut
+
+has firmware_uri => (
+  is => 'ro',
+  default => 'https://github.com/emfcamp/Mk3-Firmware/archive/%s.zip',
+);
 
 sub auto :Private {
   my ( $self, $c ) = @_;
@@ -87,6 +96,34 @@ sub take_admin :Local :Args(1) {
     $user->delete_related('user_roles', { role_id => $role->id });
   }
   $c->res->redirect( $c->uri_for( '/admin/users' ) );
+}
+
+sub update :Local :Args(1) {
+  my ( $self, $c, $branch ) = @_;
+
+  my $fetch_url = sprintf( $self->firmware_uri, $branch );
+
+  my $tmpfile = File::Temp->new( SUFFIX => '.zip' );
+  my $tempdir = File::Temp->newdir;
+  my $ua = LWP::UserAgent->new;
+
+  my $response = $ua->get( $fetch_url, ':content_file' => $tmpfile->filename );
+
+  my $zip = Archive::Extract->new( archive => $tmpfile->filename );
+
+  my $firmware_path = $c->path_to( qw/ root firmware /, $branch );
+
+  $zip->extract( to => $tempdir->dirname );
+
+  my $files = $zip->files;
+
+  io->dir( $firmware_path->stringify )->rmtree;
+
+  io->dir(
+    File::Spec->catdir( $tempdir->dirname, 'Mk3-Firmware-' . $branch )
+    )->copy( $firmware_path->stringify );
+
+  $c->stash( template => 'error.tt', error => "Updated $branch" );
 }
 
 =encoding utf8
