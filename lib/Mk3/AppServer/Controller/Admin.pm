@@ -119,7 +119,9 @@ sub update :Local :Args(1) {
 
   my $files = $zip->files;
 
-  io->dir( $firmware_path->stringify )->rmtree;
+  my $target_dir = io->dir( $firmware_path->stringify );
+  $target_dir->mkdir;
+  $target_dir->rmtree;
 
   io->dir(
     File::Spec->catdir( $tempdir->dirname, 'Mk3-Firmware-' . $branch )
@@ -130,7 +132,7 @@ sub update :Local :Args(1) {
   my $json_file = io( $json_path );
   $json_file->print(
     encode_json(
-      $self->create_hashed_array( io->dir( $firmware_path->stringify ) )
+      $self->create_hashed_array( $target_dir )
     )
   );
   $c->stash( template => 'error.tt', error => "Updated $branch" );
