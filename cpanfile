@@ -37,6 +37,8 @@ requires 'DateTime';
 requires 'DBIx::Class::Schema::Loader';
 requires 'DateTime::Format::SQLite';
 requires 'Starman';
+requires 'IO::All';
+requires 'File::Copy::Recursive';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
