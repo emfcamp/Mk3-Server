@@ -4,6 +4,8 @@ use LWP::UserAgent;
 use File::Temp;
 use Archive::Extract;
 use IO::All;
+use Digest::SHA;
+use JSON::MaybeXS qw/ encode_json /;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -123,7 +125,25 @@ sub update :Local :Args(1) {
     File::Spec->catdir( $tempdir->dirname, 'Mk3-Firmware-' . $branch )
     )->copy( $firmware_path->stringify );
 
+  my $json_path = $firmware_path->stringify . ".json";
+
+  my $json_file = io( $json_path );
+  $json_file->print(
+    encode_json(
+      $self->create_hashed_array( io->dir( $firmware_path->stringify ) )
+    )
+  );
   $c->stash( template => 'error.tt', error => "Updated $branch" );
+}
+
+sub create_hashed_array {
+  my ( $self, $io ) = @_;
+
+  if ( $io->is_dir ) {
+    return { map { $_->filename => $self->create_hashed_array( $_ ) } $io->all };
+  } else {
+    return Digest::SHA->new(256)->addfile($io->name)->hexdigest;
+  }
 }
 
 =encoding utf8
