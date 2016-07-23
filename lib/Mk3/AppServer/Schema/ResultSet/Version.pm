@@ -7,6 +7,7 @@ use Archive::Extract;
 use File::Temp ();
 use File::Spec;
 use Path::Class::File ();
+use Digest::SHA;
 
 use base qw/ DBIx::Class::InflateColumn::FS::ResultSet /;
 
@@ -38,9 +39,11 @@ sub _inflate_tar_file {
   return { error => 'Filenames must not contain any whitespace' } if grep(/\s/, @$local_filenames);
 
   my @checked_files = map {
+    my $file_name = File::Spec->catfile( $tempdir->dirname, $_ );
     {
       filename => $_,
-      file => Path::Class::File->new( File::Spec->catfile( $tempdir->dirname, $_ ) ),
+      file => Path::Class::File->new( $file_name ),
+      file_hash => Digest::SHA->new(256)->addfile( $file_name )->hexdigest,
     }
   } @$local_filenames;
 
