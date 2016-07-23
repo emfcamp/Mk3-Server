@@ -120,7 +120,6 @@ sub update :Local :Args(1) {
   my $files = $zip->files;
 
   my $target_dir = io->dir( $firmware_path->stringify );
-  $target_dir->mkdir;
   $target_dir->rmtree;
 
   io->dir(
