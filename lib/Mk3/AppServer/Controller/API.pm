@@ -83,7 +83,7 @@ sub app :Local :Args(2) {
         while ( my $file_result = $file_rs->next ) {
           push @{$json->{files}}, {
             file => $file_result->filename,
-            hash => 'some hash',
+            hash => $file_result->file_hash,
             link => $c->uri_for( sprintf(
               '/app/%s/%s/%s/get/file/%s',
               $user_result->lc_username,
