@@ -18,6 +18,12 @@ column filename => {
   size => '255',
 };
 
+column file_hash => {
+  data_type => 'varchar',
+  size => '70',
+  is_nullable => 1,
+};
+
 column file => {
   data_type => 'text',
   is_fs_column => 1,
