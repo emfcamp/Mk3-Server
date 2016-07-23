@@ -5,6 +5,9 @@ extends 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
   schema_class => 'Mk3::AppServer::Schema',
+  connect_info => {
+    quote_names => 1,
+  },
 );
 
 has storage_path => (
