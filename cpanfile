@@ -39,6 +39,7 @@ requires 'DateTime::Format::SQLite';
 requires 'Starman';
 requires 'IO::All';
 requires 'File::Copy::Recursive';
+requires 'LWP::Protocol::https';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
