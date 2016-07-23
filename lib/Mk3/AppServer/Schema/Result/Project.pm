@@ -33,6 +33,16 @@ belongs_to(
 
 has_many( 'versions' => 'Mk3::AppServer::Schema::Result::Version', 'project_id' );
 
+column category_id => {
+  data_type => 'int',
+  is_nullable => 1,
+};
+
+belongs_to(
+  'category' => 'Mk3::AppServer::Schema::Result::Category',
+  { 'foreign.id' => 'self.category_id' },
+);
+
 column latest_allowed_version => {
   data_type => 'int',
   is_nullable => 1,
