@@ -40,9 +40,9 @@ sub add :Local :Args(0) {
       error => "Category name can only contain Alphanumeric characters and '-'",
       cat_name => $category_name,
     );
-  } elsif ( length $category_name > 10 ) {
+  } elsif ( length $category_name > 25 ) {
     $c->stash(
-      error => "Category name must be 10 characters or less",
+      error => "Category name must be 25 characters or less",
       cat_name => $category_name,
     );
   } else {
@@ -71,7 +71,9 @@ sub delete :Local :Args(1) {
   my $category_result = $c->model('DB::Category')->find( $id );
   $self->index( $c );
 
-  if ( defined $category_result ) {
+  if ( $id == 0 ) {
+    $c->stash( error => "You cannot delete uncategorised" );
+  } elsif ( defined $category_result ) {
     $category_result->projects->update({ category_id => undef });
     $category_result->delete;
     $c->stash( message => "Successfully deleted category: " . $category_result->name );

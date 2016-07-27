@@ -42,9 +42,11 @@
 <h3>
   [% category_result.name %]
   <span class="badge">[% category_result.projects.count %]</span>
+  [%- IF category_result.id != 0 %]
   <div class="pull-right">
     <a class="btn btn-danger" href="[% c.uri_for( delete_link ) %]">Delete Category</a>
   </div>
+  [%- END %]
 </h3>
 </li>
 [%- END %]
