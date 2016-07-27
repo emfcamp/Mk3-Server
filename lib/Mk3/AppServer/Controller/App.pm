@@ -69,7 +69,7 @@ sub add :Local :Args(0) {
         error => "App name must be 10 characters or less",
         app_name => $app_name,
       );
-    } elsif ( $c->user->projects->find({ name => $app_name }) ) {
+    } elsif ( $c->user->projects->find({ lc_name => lc $app_name }) ) {
       $c->stash(
         error => 'App Already Exists',
         app_name => $app_name,
