@@ -9,4 +9,6 @@
 </form>
 [% END %]
 
+[% INCLUDE 'partials/app_category.tt' app_result = app_result %]
+
 [% INCLUDE 'partials/version_block.tt' versions_rs = versions_rs %]

@@ -1,0 +1,24 @@
+[% IF c.user_exists && owner %]
+<form action="[% c.uri_for( '/app/category' ) %]" method="post">
+  <div class="input-group">
+    <select class="form-control" name="category_id">
+      <option value="0">uncategorised</option>
+      [% WHILE ( category_result = categories_rs.next ) %]
+      <option
+        [%- IF category_result.id == app_result.category_id %]
+        selected
+        [%- END %]
+        value="[% category_result.id %]">
+        [% category_result.name %]
+      </option>
+      [% END %]
+    </select>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit">Update Category</button>
+    </span>
+  </div>
+  <input type="hidden" name="app_id" value="[% app_result.id %]">
+</form>
+[% ELSE %]
+  [% app_result.category.name || 'uncategorised' %]
+[% END %]

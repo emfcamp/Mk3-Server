@@ -96,6 +96,42 @@ sub add :Local :Args(0) {
   }
 }
 
+sub category :Local :Args(0) {
+  my ( $self, $c ) = @_;
+
+  my $app_id = $c->req->body_params->{ app_id };
+  my $category_id = $c->req->body_params->{ category_id };
+
+  if ( $c->user_exists ) {
+    my $app_result = $c->model('DB::Project')->find( $app_id );
+    my $category_result = $c->model('DB::Category')->find( $category_id );
+    unless ( defined $app_result ) {
+      $c->stash(
+        error => 'App does not exist',
+        template => 'error.tt',
+      );
+    } elsif ( ! defined $category_result ) {
+      $c->stash(
+        error => 'Category does not exist',
+        template => 'error.tt',
+      );
+    } elsif ( $c->user->id == $app_result->user_id ) {
+      $app_result->update({ category_id => $category_result->id });
+      $self->chain_user( $c, $app_result->user->lc_username );
+      $self->end_app( $c, $app_result->name );
+      $c->stash(
+        message => 'Updated Category',
+        template => 'app/end_app.tt',
+      );
+    }
+  } else {
+    $c->stash(
+      error => 'You cannot set a category when not logged in',
+      template => 'error.tt',
+    );
+  }
+}
+
 sub chain_root :Chained(/) :PathPart('app') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
 
@@ -167,7 +203,14 @@ sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
       $where_clause,
       { order_by => { -desc => 'version' } },
     );
-    $c->stash( versions_rs => $versions_rs );
+    my $categories_rs = $c->model('DB::Category')->search(
+      { id => { '!=' => 0 } },
+      { order_by => { -asc => 'name' } }
+    );
+    $c->stash(
+      versions_rs => $versions_rs,
+      categories_rs => $categories_rs
+    );
   }
 }
 
