@@ -38,6 +38,10 @@
               <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
               User Admin
             </a></li>
+            <li><a href="[% c.uri_for( '/admin/category' ) %]">
+              <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+              Category Admin
+            </a></li>
           </ul>
         </li>
         [%- END %]
