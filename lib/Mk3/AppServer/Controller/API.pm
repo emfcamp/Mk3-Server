@@ -41,7 +41,7 @@ sub apps :Local :Args(0) {
     my $latest_version = $app_result->latest_version;
 
     if ( defined $latest_version ) {
-      push @{$json->{all}}, {
+      my $app_data = {
         user => $app_result->user->username,
         name => $app_result->name,
         description => $app_result->description,
@@ -51,6 +51,8 @@ sub apps :Local :Args(0) {
           $app_result->lc_name,
         ))->as_string,
       };
+      push @{$json->{all}}, $app_data;
+      push @{$json->{ $app_result->category->name }}, $app_data;
     }
   }
 
