@@ -1,4 +1,4 @@
-[% IF c.user_exists && owner %]
+[% IF c.user_exists && ( owner || c.check_user_roles('admin') ) %]
 <form action="[% c.uri_for( '/app/category' ) %]" method="post">
   <div class="input-group">
     <select class="form-control" name="category_id">

@@ -115,13 +115,12 @@ sub category :Local :Args(0) {
         error => 'Category does not exist',
         template => 'error.tt',
       );
-    } elsif ( $c->user->id == $app_result->user_id ) {
+    } elsif ( $c->user->id == $app_result->user_id || $c->check_user_roles('admin') ) {
       $app_result->update({ category_id => $category_result->id });
-      $self->chain_user( $c, $app_result->user->lc_username );
-      $self->end_app( $c, $app_result->name );
-      $c->stash(
-        message => 'Updated Category',
-        template => 'app/end_app.tt',
+      $c->res->redirect(
+        $c->uri_for(
+          sprintf( '/app/%s/%s', $app_result->user->lc_username, $app_result->lc_name )
+        )
       );
     }
   } else {
