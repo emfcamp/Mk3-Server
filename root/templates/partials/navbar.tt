@@ -42,6 +42,10 @@
               <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
               Category Admin
             </a></li>
+            <li><a href="[% c.uri_for( '/admin/update/master' ) %]">
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+              Firmware Update (master)
+            </a></li>
           </ul>
         </li>
         [%- END %]
