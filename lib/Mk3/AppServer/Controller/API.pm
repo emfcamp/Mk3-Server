@@ -38,7 +38,7 @@ sub apps :Local :Args(0) {
   my $json = {};
 
   while ( my $app_result = $apps_rs->next ) {
-    my $latest_version = $app_result->latest_version;
+    my $latest_version = $app_result->get_latest_allowed_version;
 
     if ( defined $latest_version ) {
       my $app_data = {
@@ -70,7 +70,7 @@ sub app :Local :Args(2) {
     )->first;
 
     if ( defined $app_result ) {
-      my $version_result = $app_result->latest_version;
+      my $version_result = $app_result->get_latest_allowed_version;
 
       if ( defined $version_result ) {
         my $json = {

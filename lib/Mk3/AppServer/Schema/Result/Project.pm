@@ -65,6 +65,17 @@ sub set_latest_allowed_version {
   return $self;
 }
 
+sub get_latest_allowed_version {
+  my $self = shift;
+
+  my $latest_allowed_version = $self->search_related(
+    'versions',
+    { id => $self->latest_allowed_version },
+  )->first;
+
+  return $latest_allowed_version;
+}
+
 sub latest_version {
   my $self = shift;
 
