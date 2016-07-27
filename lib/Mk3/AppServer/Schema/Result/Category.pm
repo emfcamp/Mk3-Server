@@ -10,7 +10,7 @@ primary_column id => {
 
 unique_column name => {
   data_type => 'varchar',
-  size => '10',
+  size => '25',
 };
 
 has_many( 'projects' => 'Mk3::AppServer::Schema::Result::Project', 'category_id' );
