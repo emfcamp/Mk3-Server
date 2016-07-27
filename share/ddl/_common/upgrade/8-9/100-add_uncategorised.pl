@@ -13,4 +13,8 @@ schema_from_schema_loader({ naming => 'v7' }, sub {
     name => 'uncategorised',
     id => 0,
   });
+
+  $schema->resultset('Project')->search({
+    category_id => undef,
+  })->update_all({ category_id => 0 });
 });
