@@ -50,7 +50,7 @@ sub register_post :Path :Args(0) POST {
       email    => $email,
       template => 'register/index.tt',
     );
-  } elsif ( $user_rs->find({ username => $username }) ) {
+  } elsif ( $user_rs->find({ lc_username => lc $username }) ) {
     $c->stash(
       error    => 'Username already exists',
       username => $username,
