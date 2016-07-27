@@ -36,6 +36,7 @@ has_many( 'versions' => 'Mk3::AppServer::Schema::Result::Version', 'project_id' 
 column category_id => {
   data_type => 'int',
   is_nullable => 1,
+  default_value => '0',
 };
 
 belongs_to(
