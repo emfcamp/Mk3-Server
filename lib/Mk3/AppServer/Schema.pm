@@ -2,7 +2,7 @@ package Mk3::AppServer::Schema;
 
 use base qw/ DBIx::Class::Schema /;
 
-our $VERSION = 9;
+our $VERSION = 10;
 
 __PACKAGE__->load_namespaces();
 

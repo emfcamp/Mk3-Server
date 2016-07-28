@@ -26,7 +26,7 @@ unique_column email => {
 
 column password => {
   data_type => 'varchar',
-  size => 50,
+  size => 100,
   passphrase => 'crypt',
   passphrase_class => 'BlowfishCrypt',
   passphrase_args => {
