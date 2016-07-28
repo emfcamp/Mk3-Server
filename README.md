@@ -100,3 +100,11 @@ CATALYST_DEBUG=1 ./script/mk3_appserver_server.pl -r
 This will start up a local testing server in debug mode, which will
 automatically reload on any changes to the codebase, listening on
 http://0:3000/
+
+# Postgres support
+
+To install the required postgres modules, run the following:
+
+```
+cpanm --installdeps --with-feature postgres .
+```

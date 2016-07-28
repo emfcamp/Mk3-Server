@@ -43,4 +43,9 @@ requires 'LWP::Protocol::https';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
-}
+};
+
+feature 'postgres', 'PostgreSQL Support' => sub {
+  requires 'DBD::Pg';
+  requires 'DateTime::Format::Pg';
+};
