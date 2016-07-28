@@ -57,6 +57,7 @@ sub allow :Local :Args(1) {
   my $version = $c->model('DB::Version')->find( $id );
   if ( defined $version ) {
     $version->allow;
+    $version->project->set_latest_allowed_version;
   }
   $c->res->redirect( $c->uri_for( '/admin' ) );
 }
