@@ -49,3 +49,7 @@ feature 'postgres', 'PostgreSQL Support' => sub {
   requires 'DBD::Pg';
   requires 'DateTime::Format::Pg';
 };
+
+feature 'migration', 'Migrate from DB to DB' => sub {
+  requires 'DBIx::Class::Fixtures';
+};
