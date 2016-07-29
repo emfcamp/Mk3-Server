@@ -1,7 +1,0 @@
-This will have the users own programs in, as well as a way to create new programs and upload new versions
-
-<form action="[% c.uri_for( '/program/upload' ) %]" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="form_submit" value="yes">
-  <input type="file" name="my_file">
-  <input type="submit" value="Upload">
-</form>

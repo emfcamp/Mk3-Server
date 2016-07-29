@@ -40,11 +40,6 @@ sub settings :Local :Args(0) {
 
 }
 
-sub programs :Local :Args(0) {
-  my ( $self, $c ) = @_;
-
-}
-
 =encoding utf8
 
 =head1 AUTHOR
