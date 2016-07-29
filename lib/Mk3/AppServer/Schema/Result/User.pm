@@ -46,4 +46,14 @@ has_many( 'projects' => 'Mk3::AppServer::Schema::Result::Project', 'user_id' );
 has_many( 'user_roles' => 'Mk3::AppServer::Schema::Result::UserRole', 'user_id' );
 many_to_many( 'roles' => 'user_roles', 'role' );
 
+sub set_new_password {
+  my ( $self, $new_password ) = @_;
+
+  $self->set_password_code(undef);
+  $self->password( $new_password );
+  $self->update;
+
+  return $self;
+}
+
 1;

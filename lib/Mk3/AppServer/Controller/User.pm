@@ -40,6 +40,34 @@ sub settings :Local :Args(0) {
 
 }
 
+sub change_pass :Local :Args(0) {
+  my ( $self, $c ) = @_;
+
+  if ( $c->req->method eq 'GET' ) {
+    $c->res->redirect( $c->uri_for( '/user/settings' ) );
+    $c->detach;
+  }
+
+  my $old_pass = $c->req->body_data->{ old_pass };
+  my $new_pass = $c->req->body_data->{ new_pass };
+  my $new_pass2 = $c->req->body_data->{ new_pass2 };
+
+  if ( $c->user->password->match( $old_pass ) ) {
+    if ( $new_pass eq $new_pass2 ) {
+     $c->user->set_new_password( $new_pass );
+     $c->stash( message => 'Password changed successfully' );
+    } else {
+      # Passwords did not match
+      $c->stash( error => 'New Passwords did not match' );
+    }
+  } else {
+    # Original Password was wrong
+    $c->stash( error => 'Old Password was incorrect' );
+  }
+
+  $c->stash( template => 'user/settings.tt' );
+}
+
 =encoding utf8
 
 =head1 AUTHOR

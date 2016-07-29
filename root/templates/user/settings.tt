@@ -1,1 +1,32 @@
-This will have the user settings on
+[% INCLUDE 'partials/message_panels.tt' %]
+
+<div class="panel panel-warning">
+  <div class="panel-heading">
+    <h3 class="panel-title">Change Password</h3>
+  </div>
+  <div class="panel-body">
+    <form action="[% c.uri_for( '/user/change_pass' ) %]" method="post">
+      <div class="form-group input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-lock"></span>
+        </div>
+        <input type="password" class="form-control" name="old_pass" placeholder="Old Password" required>
+      </div>
+      <div class="form-group input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-lock"></span>
+        </div>
+        <input type="password" class="form-control" name="new_pass" placeholder="New Password" required>
+      </div>
+      <div class="form-group input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-lock"></span>
+        </div>
+        <input type="password" class="form-control" name="new_pass2" placeholder="Repeat New Password" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="form-control btn btn-warning btn-block">Change Password</button>
+      </div>
+    </form>
+  </div>
+</div>
