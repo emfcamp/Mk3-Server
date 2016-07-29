@@ -15,7 +15,8 @@
         <input class="form-control" type="password" name="password" placeholder="Password" required>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+          <button type="submit" class="btn btn-primary col-md-8">Login</button>
+          <a href="[% c.uri_for( '/login/forgot_pass' ) %]" class="btn btn-warning col-md-3 col-md-offset-1">Forgot Password</a>
       </div>
     </form>
   </div>

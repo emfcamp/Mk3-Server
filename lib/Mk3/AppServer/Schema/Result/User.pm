@@ -1,5 +1,7 @@
 package Mk3::AppServer::Schema::Result::User;
 
+use String::Random;
+
 use DBIx::Class::Candy
   -autotable => v1,
   -components => [ 'PassphraseColumn' ];
@@ -54,6 +56,17 @@ sub set_new_password {
   $self->update;
 
   return $self;
+}
+
+sub create_password_code {
+  my ( $self ) = @_;
+
+  my $code = String::Random::random_regex('\w{80}');
+
+  $self->set_password_code( $code );
+  $self->update;
+
+  return $code;
 }
 
 1;

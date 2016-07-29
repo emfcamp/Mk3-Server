@@ -1,0 +1,13 @@
+Hi,
+
+Someone requested a password reset on your account!
+
+To set your new password, go to the following url:
+
+[% set_url %]
+
+If you did not request this just log in to the app server as normal, and this link will be voided.
+
+Thanks,
+
+The EMF Badge Team

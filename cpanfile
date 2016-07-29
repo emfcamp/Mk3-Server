@@ -40,6 +40,8 @@ requires 'Starman';
 requires 'IO::All';
 requires 'File::Copy::Recursive';
 requires 'LWP::Protocol::https';
+requires 'String::Random';
+requires 'Catalyst::View::Email::Template';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';

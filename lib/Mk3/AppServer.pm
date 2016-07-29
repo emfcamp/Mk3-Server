@@ -52,6 +52,10 @@ __PACKAGE__->config(
     INCLUDE_PATH => __PACKAGE__->path_to( qw/ root templates / ),
   },
 
+  'View::Email::TT' => {
+    INCLUDE_PATH => __PACKAGE__->path_to( qw/ root email-templates / ),
+  },
+
   'Plugin::Authentication' => {
     default_realm => 'people',
     people  => {
