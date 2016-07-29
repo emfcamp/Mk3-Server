@@ -15,6 +15,7 @@
     </div>
     <div id="footer" class="navbar-fixed-bottom">
       <div class="container text-right">
+        Found a bug? <a href="https://github.com/emfcamp/Mk3-Server/issues" target="_blank">Let us know!</a>
         <a href="http://www.catalystframework.org/" target="_blank"><img src="[% c.uri_for('/static/images/btn_88x31_powered.png') %]" alt="Powered by Catalyst" class="powered-by">
         </a>
       </div>
