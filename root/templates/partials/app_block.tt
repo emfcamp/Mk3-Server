@@ -19,6 +19,8 @@ This app has an approved version!
 [%- ELSE %]
 This app has no approved versions
 [%- END %]
-<p>[% app_result.description %]</p>
+[% FILTER html_para %]
+  [% app_result.description %]
+[% END %]
 </li>
 [%- END %]

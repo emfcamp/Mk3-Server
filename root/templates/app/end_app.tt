@@ -1,14 +1,51 @@
-<h1>[% user_result.username %]</h1>
-<h2>App: [% app_result.name %]</h2>
+[%- user_link = "/app/${app_result.user.lc_username}"
+    app_link = "${user_link}/${app_result.lc_name}"
+    description_link = "${app_link}/edit_desc"
+-%]
 
-[% IF c.user_exists && owner %]
-<form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="app_id" value="[% app_result.id %]">
-  <input type="file" name="app_archive" required>
-  <input type="submit" value="Upload">
-</form>
-[% END %]
+<div class="row">
+  <div class="col-md-8">
+    <h1>[% user_result.username %]</h1>
+    <h2>App: [% app_result.name %]</h2>
+  </div>
 
-[% INCLUDE 'partials/app_category.tt' app_result = app_result %]
+  <div class="col-md-4">
+    [% IF c.user_exists && owner %]
+    <div class="app-sidebar-item">
+      <form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="app_id" value="[% app_result.id %]">
+        <div class="form-inline">
+          <div class="form-group">
+            <input type="file" name="app_archive" required>
+          </div>
+          <div class="form-group pull-right">
+            <button class="btn btn-default" type="submit">
+              Upload
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="app-sidebar-item">
+      <div class="btn-group">
+        <a class="btn btn-default" href="[% c.uri_for( description_link ) %]">
+          <span class="glyphicon glyphicon-edit"></span>
+          Description
+        </a>
+      </div>
+    </div>
+    [% END %]
+    <div class="clearfix"></div>
+    <div class="app-sidebar-item">
+      [% INCLUDE 'partials/app_category.tt' app_result = app_result %]
+    </div>
+  </div>
+</div>
+
+<div>
+  [% FILTER html_para %]
+    [% app_result.description %]
+  [% END %]
+</div>
 
 [% INCLUDE 'partials/version_block.tt' versions_rs = versions_rs %]

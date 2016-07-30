@@ -248,6 +248,36 @@ sub end_version :Chained('chain_app') :PathPart('') :Args(1) {
   }
 }
 
+sub edit_desc_get :Chained('chain_app') :PathPart('edit_desc') :Args(0) GET {
+  my ( $self, $c, $version ) = @_;
+
+  unless ( $c->stash->{ owner } ) {
+    $c->res->redirect( $self->app_url( $c ) );
+  }
+}
+
+sub edit_desc_post :Chained('chain_app') :PathPart('edit_desc') :Args(0) POST {
+  my ( $self, $c, $version ) = @_;
+
+  if ( $c->stash->{ owner } ) {
+    my $description = $c->req->body_data->{ desc };
+    $c->stash->{ app_result }->description( $description );
+    $c->stash->{ app_result }->update;
+  }
+
+  $c->res->redirect( $self->app_url( $c ) );
+}
+
+sub app_url {
+  my ( $self, $c ) = @_;
+
+  return $c->uri_for( sprintf(
+    '/app/%s/%s',
+    $c->stash->{ user_result }->lc_username,
+    $c->stash->{ app_result }->lc_name,
+  ));
+}
+
 =encoding utf8
 
 =head1 AUTHOR

@@ -1,2 +1,1 @@
-<p>This is the root apps bit</p>
 [% INCLUDE 'partials/app_block.tt' app_rs = app_rs %]

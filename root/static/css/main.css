@@ -12,3 +12,7 @@
   /* image is 31px high */
   margin: 4px 0;
 }
+
+.app-sidebar-item {
+  padding: 5px 0;
+}
