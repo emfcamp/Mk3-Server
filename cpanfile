@@ -42,6 +42,8 @@ requires 'File::Copy::Recursive';
 requires 'LWP::Protocol::https';
 requires 'String::Random';
 requires 'Catalyst::View::Email::Template';
+requires 'IO::File::WithPath';
+requires 'Plack::Middleware::XSendfile';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';

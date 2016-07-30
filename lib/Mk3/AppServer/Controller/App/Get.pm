@@ -95,7 +95,8 @@ sub _serve_file {
   my $mime_type = MIME::Types->new->mimeTypeOf( $filename );
   $c->res->content_type( $mime_type->type );
   $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
-  $c->res->body( $file->openr );
+  my $io = IO::File::WithPath->new( $file->absolute->stringify );
+  $c->res->body( $io );
 }
 
 =encoding utf8

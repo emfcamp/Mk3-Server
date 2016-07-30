@@ -48,6 +48,10 @@ __PACKAGE__->config(
 
   default_view => 'TT',
 
+  psgi_middleware => [ qw/
+    XSendfile
+  / ],
+
   'View::TT' => {
     INCLUDE_PATH => __PACKAGE__->path_to( qw/ root templates / ),
   },
