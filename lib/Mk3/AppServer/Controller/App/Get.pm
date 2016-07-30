@@ -2,6 +2,7 @@ package Mk3::AppServer::Controller::App::Get;
 use Moose;
 use File::Spec;
 use MIME::Types;
+use IO::File::WithPath;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -40,38 +41,11 @@ sub end_archive :Chained('chain_get') :PathPart('archive') :Args(1) {
 
   if ( defined ( my $version_result = $c->stash->{ version_result } ) ) {
     if ( $archive_type eq 'tar' ) {
-      my $file = $version_result->get_tar;
-      my $filename = sprintf(
-        '%s-%s-%s.tar',
-        $c->stash->{ user_result }->lc_username,
-        $c->stash->{ app_result }->lc_name,
-        $version_result->version,
-      );
-      $c->res->content_type('application/x-tar');
-      $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
-      $c->res->body( $file->openr );
+      $self->_serve_archive( $c, $version_result, 'tar' );
     } elsif ( $archive_type eq 'tgz' ) {
-      my $file = $version_result->get_tgz;
-      my $filename = sprintf(
-        '%s-%s-%s.tgz',
-        $c->stash->{ user_result }->lc_username,
-        $c->stash->{ app_result }->lc_name,
-        $version_result->version,
-      );
-      $c->res->content_type('application/x-compressed-tar');
-      $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
-      $c->res->body( $file->openr );
+      $self->_serve_archive( $c, $version_result, 'tgz' );
     } elsif ( $archive_type eq 'zip' ) {
-      my $file = $version_result->get_zip;
-      my $filename = sprintf(
-        '%s-%s-%s.zip',
-        $c->stash->{ user_result }->lc_username,
-        $c->stash->{ app_result }->lc_name,
-        $version_result->version,
-      );
-      $c->res->content_type('application/zip');
-      $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
-      $c->res->body( $file->openr );
+      $self->_serve_archive( $c, $version_result, 'zip' );
     } else {
       $c->stash(
         template => 'error.tt',
@@ -79,6 +53,20 @@ sub end_archive :Chained('chain_get') :PathPart('archive') :Args(1) {
       );
     }
   }
+}
+
+sub _serve_archive {
+  my ( $self, $c, $version_result, $extension ) = @_;
+
+  my $file = $version_result->${\"get_$extension"};
+  my $filename = sprintf(
+    '%s-%s-%s.%s',
+    $c->stash->{ user_result }->lc_username,
+    $c->stash->{ app_result }->lc_name,
+    $version_result->version,
+    $extension,
+  );
+  $self->_serve_file( $c, $filename, $file );
 }
 
 sub end_file :Chained('chain_get') :PathPart('file') :Args {
@@ -91,12 +79,7 @@ sub end_file :Chained('chain_get') :PathPart('file') :Args {
       { filename => $search_filename },
     )->first;
     if ( defined $file_result ) {
-      my $file = $file_result->file;
-      my $filename = $file_result->filename;
-      my $mime_type = MIME::Types->new->mimeTypeOf( $filename );
-      $c->res->content_type( $mime_type->type );
-      $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
-      $c->res->body( $file->openr );
+      $self->_serve_file( $c, $file_result->filename, $file_result->file );
     } else {
       $c->stash(
         template => 'error.tt',
@@ -104,6 +87,15 @@ sub end_file :Chained('chain_get') :PathPart('file') :Args {
       );
     }
   }
+}
+
+sub _serve_file {
+  my ( $self, $c, $filename, $file ) = @_;
+
+  my $mime_type = MIME::Types->new->mimeTypeOf( $filename );
+  $c->res->content_type( $mime_type->type );
+  $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
+  $c->res->body( $file->openr );
 }
 
 =encoding utf8
