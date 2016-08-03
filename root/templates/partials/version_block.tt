@@ -20,6 +20,5 @@ This version has been approved
 [%- ELSE %]
 This version has been rejected
 [% END %]
-<p>[% version_result.description %]</p>
 </li>
 [%- END %]
