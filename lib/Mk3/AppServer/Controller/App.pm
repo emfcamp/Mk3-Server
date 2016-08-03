@@ -268,6 +268,26 @@ sub edit_desc_post :Chained('chain_app') :PathPart('edit_desc') :Args(0) POST {
   $c->res->redirect( $self->app_url( $c ) );
 }
 
+sub version_edit_desc_get :Chained('chain_version') :PathPart('edit_desc') :Args(0) GET {
+  my ( $self, $c, $version ) = @_;
+
+  unless ( $c->stash->{ owner } ) {
+    $c->res->redirect( $self->version_url( $c ) );
+  }
+}
+
+sub version_edit_desc_post :Chained('chain_version') :PathPart('edit_desc') :Args(0) POST {
+  my ( $self, $c, $version ) = @_;
+
+  if ( $c->stash->{ owner } ) {
+    my $description = $c->req->body_data->{ desc };
+    $c->stash->{ version_result }->description( $description );
+    $c->stash->{ version_result }->update;
+  }
+
+  $c->res->redirect( $self->version_url( $c ) );
+}
+
 sub app_url {
   my ( $self, $c ) = @_;
 
@@ -275,6 +295,17 @@ sub app_url {
     '/app/%s/%s',
     $c->stash->{ user_result }->lc_username,
     $c->stash->{ app_result }->lc_name,
+  ));
+}
+
+sub version_url {
+  my ( $self, $c ) = @_;
+
+  return $c->uri_for( sprintf(
+    '/app/%s/%s/%s',
+    $c->stash->{ user_result }->lc_username,
+    $c->stash->{ app_result }->lc_name,
+    $c->stash->{ version_result }->version,
   ));
 }
 

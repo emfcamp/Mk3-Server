@@ -1,24 +1,41 @@
-<h1>[% user_result.username %]</h1>
-<h2>App: [% app_result.name %]</h2>
-<h3>Version: [% version_result.version %]</h3>
-
 [%- user_link = "/app/${user_result.lc_username}"
     app_link = "${user_link}/${app_result.lc_name}"
     version_link = "${app_link}/${version_result.version}"
+    description_link = "${version_link}/edit_desc"
     zip_link = "${version_link}/get/archive/zip"
     tgz_link = "${version_link}/get/archive/tgz"
     tar_link = "${version_link}/get/archive/tar"
 -%]
 
-<div class="btn-group">
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Download Archive <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="[% c.uri_for( zip_link ) %]">Zip</a></li>
-    <li><a href="[% c.uri_for( tar_link ) %]">Tar</a></li>
-    <li><a href="[% c.uri_for( tgz_link ) %]">Gzipped Tar</a></li>
-  </ul>
+<div class="row">
+  <div class="col-md-8">
+    <h1>[% user_result.username %]</h1>
+    <h2>App: [% app_result.name %]</h2>
+    <h3>Version: [% version_result.version %]</h3>
+  </div>
+
+  <div class="col-md-4">
+    <div class="app-sidebar-item">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Download Archive <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="[% c.uri_for( zip_link ) %]">Zip</a></li>
+          <li><a href="[% c.uri_for( tar_link ) %]">Tar</a></li>
+          <li><a href="[% c.uri_for( tgz_link ) %]">Gzipped Tar</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="app-sidebar-item">
+      <div class="btn-group">
+        <a class="btn btn-default" href="[% c.uri_for( description_link ) %]">
+          <span class="glyphicon glyphicon-edit"></span>
+          Description
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <ul>
