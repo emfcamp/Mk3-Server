@@ -1,5 +1,7 @@
 package Mk3::AppServer::Controller::API::BARMS;
 use Moose;
+use LWP::UserAgent;
+use JSON::MaybeXS qw/ encode_json /;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -16,6 +18,16 @@ Catalyst Controller.
 
 =cut
 
+has _ua => (
+  is => 'ro',
+  default => sub {
+    return LWP::UserAgent->new;
+  },
+);
+
+has endpoint => (
+  is => 'ro',
+);
 
 =head2 index
 
@@ -25,9 +37,22 @@ sub index :Path :Args(0) {
   my ( $self, $c ) = @_;
 
   my $data = $c->req->body_data;
+  my $success = \0;
+
+  if ( defined $self->endpoint ) {
+    my $response = $self->_ua->post(
+      $self->endpoint,
+      'Content-Type' => 'application/json',
+      Content => encode_json( $data ),
+    );
+    
+    if ( $response->code == 201 ) {
+      $success = \1,
+    }
+  }
 
   $c->stash( json => {
-    success => \1,
+    success => $success,
     message => 'Data Recieved',
     data => $data,
   });
