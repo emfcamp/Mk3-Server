@@ -4,6 +4,8 @@
     zip_link = "${version_link}/get/archive/zip"
     tgz_link = "${version_link}/get/archive/tgz"
     tar_link = "${version_link}/get/archive/tar"
+    allow_link = "/admin/allow/${version_result.id}"
+    reject_link = "/admin/reject/${version_result.id}"
 -%]
 
 <div class="row">
@@ -14,16 +16,31 @@
   </div>
 
   <div class="col-md-4">
-    <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Download Archive <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="[% c.uri_for( zip_link ) %]">Zip</a></li>
-        <li><a href="[% c.uri_for( tar_link ) %]">Tar</a></li>
-        <li><a href="[% c.uri_for( tgz_link ) %]">Gzipped Tar</a></li>
-      </ul>
+    <div class="app-sidebar-item">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Download Archive <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="[% c.uri_for( zip_link ) %]">Zip</a></li>
+          <li><a href="[% c.uri_for( tar_link ) %]">Tar</a></li>
+          <li><a href="[% c.uri_for( tgz_link ) %]">Gzipped Tar</a></li>
+        </ul>
+      </div>
     </div>
+    [%- IF c.check_user_roles('admin') %]
+    <div class="app-sidebar-item">
+      Administration:
+      <div class="btn-group">
+        [%- IF ( version_result.status == 'rejected' ) || ( version_result.status == 'new' ) %]
+        <a class="btn btn-success" href="[% c.uri_for( allow_link ) %]">Allow Version</a>
+        [%- END %]
+        [%- IF ( version_result.status == 'allowed' ) || ( version_result.status == 'new' ) %]
+        <a class="btn btn-danger" href="[%c.uri_for( reject_link ) %]">Reject Version</a>
+        [%- END %]
+      </div>
+    </div>
+    [%- END %]
   </div>
 </div>
 

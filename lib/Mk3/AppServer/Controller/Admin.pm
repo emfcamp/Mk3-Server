@@ -54,22 +54,26 @@ sub index :Path :Args(0) {
 sub allow :Local :Args(1) {
   my ( $self, $c, $id ) = @_;
 
+  my $redirect = $c->req->headers->referer || $c->uri_for( '/admin' );
+
   my $version = $c->model('DB::Version')->find( $id );
   if ( defined $version ) {
     $version->allow;
     $version->project->set_latest_allowed_version;
   }
-  $c->res->redirect( $c->uri_for( '/admin' ) );
+  $c->res->redirect( $redirect );
 }
 
 sub reject :Local :Args(1) {
   my ( $self, $c, $id ) = @_;
 
+  my $redirect = $c->req->headers->referer || $c->uri_for( '/admin' );
+
   my $version = $c->model('DB::Version')->find( $id );
   if ( defined $version ) {
     $version->reject;
   }
-  $c->res->redirect( $c->uri_for( '/admin' ) );
+  $c->res->redirect( $redirect );
 }
 
 sub users :Local {
