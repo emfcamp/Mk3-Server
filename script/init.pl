@@ -19,7 +19,7 @@ exit Daemon::Control->new(
       --port localhost:5000
       -- plackup
       --server Gazelle
-      --max-workers 32
+      --max-workers 5
       /,
       "$Bin/../mk3_appserver.psgi"
     ],
