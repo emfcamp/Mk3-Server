@@ -36,7 +36,6 @@ requires 'Daemon::Control';
 requires 'DateTime';
 requires 'DBIx::Class::Schema::Loader';
 requires 'DateTime::Format::SQLite';
-requires 'Starman';
 requires 'IO::All';
 requires 'File::Copy::Recursive';
 requires 'LWP::Protocol::https';
@@ -45,6 +44,7 @@ requires 'Catalyst::View::Email::Template';
 requires 'IO::File::WithPath';
 requires 'Plack::Middleware::XSendfile';
 requires 'Gazelle';
+requires 'Server::Starter';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';

@@ -14,11 +14,11 @@ exit Daemon::Control->new(
     lsb_desc    => 'Init script for the MK3 Appserver fo EMF Camp',
  
     init_code   => "eval \$(perl -I $ENV{HOME}/perl5/lib/perl5/ -Mlocal::lib)",
-    program     => "plackup",
+    program     => "start_server",
     program_args => [ qw/
+      --port localhost:5000
+      -- plackup
       --server Gazelle
-      --port 5000
-      --host localhost
       --max-workers 32
       /,
       "$Bin/../mk3_appserver.psgi"
