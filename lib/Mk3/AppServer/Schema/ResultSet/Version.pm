@@ -42,10 +42,12 @@ sub _inflate_archive_file {
 
   my @io_archive_files = $io_archive->all;
 
-  if ( scalar( @io_archive_files ) == 1 ) {
+  if ( scalar( @io_archive_files ) == 1 && $io_archive_files[0]->is_dir ) {
     $io_archive = $self->_cleanup_files( $io_archive_files[0] );
-  } else {
-    return { error => 'Archive must be a flat file structure, or only contain one folder' };
+    @io_archive_files = $io_archive->all;
+  }
+  for my $file ( @io_archive_files ) {
+    return { error => 'Archive must be a flat file structure, or only contain one folder' } if $file->is_dir;
   }
 
   my @local_files = $io_archive->all;
@@ -95,7 +97,7 @@ sub _inflate_zip_file {
 
 sub _cleanup_files {
   my ( $self, $io ) = @_;
-
+  use Devel::Dwarn; Dwarn 'In Cleanup';
   my @files = $io->all;
   for my $file ( @files ) {
     if ( $file->filename =~ /^\./ ) {
