@@ -64,9 +64,9 @@ sub add :Local :Args(0) {
         error => "App name can only contain alphanumeric characters, '-' and '_'",
         app_name => $app_name,
       );
-    } elsif ( length $app_name > 10 ) {
+    } elsif ( length $app_name > 15 ) {
       $c->stash(
-        error => "App name must be 10 characters or less",
+        error => "App name must be 15 characters or less",
         app_name => $app_name,
       );
     } elsif ( $c->user->projects->find({ lc_name => lc $app_name }) ) {
