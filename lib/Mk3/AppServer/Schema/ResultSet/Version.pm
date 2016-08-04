@@ -60,8 +60,6 @@ sub _inflate_archive_file {
     return { error => 'App must contain "main.py" file' };
   }
 
-  use Devel::Dwarn; for ( my @files = $io_archive->all ) { Dwarn $_->name }
-
   my @checked_files = map {
     {
       filename => $_->filename,
@@ -108,7 +106,6 @@ sub _cleanup_files {
       $self->_remove_file_or_folder( $file );
       next;
     }
-    use Devel::Dwarn; Dwarn $file->filename;
   }
   return $io;
 }
