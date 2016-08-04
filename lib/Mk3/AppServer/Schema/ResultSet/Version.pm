@@ -8,6 +8,7 @@ use File::Temp ();
 use File::Spec;
 use Path::Class::File ();
 use Digest::SHA;
+use IO::All;
 
 use base qw/ DBIx::Class::InflateColumn::FS::ResultSet /;
 
@@ -23,30 +24,51 @@ sub new_version {
   }
 }
 
-sub _inflate_tar_file {
-  my ( $self, $create_hash, $tar_file ) = @_;
+sub _inflate_archive_file {
+  my ( $self, $create_hash, $key ) = @_;
 
-  my $tar = Archive::Extract->new( archive => $tar_file || $create_hash->{ tar_file } );
-  return { error => 'Not a valid Archive' } unless defined $tar;
+  my $archive_file = delete $create_hash->{ $key };
+
+  my $archive = Archive::Extract->new( archive => $archive_file );
+  return { error => 'Not a valid Archive' } unless defined $archive;
 
   my $tempdir = File::Temp->newdir;
 
-  return { error => 'Error opening Archive' } unless $tar->extract( to => $tempdir->dirname );
+  return { error => 'Error opening Archive' } unless $archive->extract( to => $tempdir->dirname );
 
-  my $local_filenames = $tar->files;
+  my $io_archive = io->dir( $tempdir->dirname );
 
-  return { error => 'Must be a flat file structure' } if grep(/\//, @$local_filenames);
-  return { error => 'Filenames must not contain any whitespace' } if grep(/\s/, @$local_filenames);
-  return { error => 'App must contain "main.py" file' } unless scalar grep(/^main\.py$/, @$local_filenames);
+  $io_archive = $self->_cleanup_files( $io_archive );
+
+  my @io_archive_files = $io_archive->all;
+
+  if ( scalar( @io_archive_files ) == 1 ) {
+    $io_archive = $self->_cleanup_files( $io_archive_files[0] );
+  } else {
+    return { error => 'Archive must be a flat file structure, or only contain one folder' };
+  }
+
+  my @local_files = $io_archive->all;
+
+  my $main_flag = 0;
+  for my $file ( @local_files ) {
+    return { error => 'Filenames must not contain any whitespace' } if $file->filename =~ /\s/;
+    $main_flag = 1 if $file->filename eq 'main.py';
+  }
+
+  unless ( $main_flag eq 1 ) {
+    return { error => 'App must contain "main.py" file' };
+  }
+
+  use Devel::Dwarn; for ( my @files = $io_archive->all ) { Dwarn $_->name }
 
   my @checked_files = map {
-    my $file_name = File::Spec->catfile( $tempdir->dirname, $_ );
     {
-      filename => $_,
-      file => Path::Class::File->new( $file_name ),
-      file_hash => Digest::SHA->new(256)->addfile( $file_name )->hexdigest,
+      filename => $_->filename,
+      file => Path::Class::File->new( $_->name ),
+      file_hash => Digest::SHA->new(256)->addfile( $_->name )->hexdigest,
     }
-  } @$local_filenames;
+  } @local_files;
 
   $create_hash->{ files } = \@checked_files;
 
@@ -55,16 +77,52 @@ sub _inflate_tar_file {
   return { result => $result };
 }
 
+sub _inflate_tar_file {
+  my ( $self, $create_hash ) = @_;
+
+  return $self->_inflate_archive_file( $create_hash, 'tar_file' );
+}
+
 sub _inflate_gz_file {
   my ( $self, $create_hash ) = @_;
 
-  return $self->_inflate_tar_file( $create_hash, $create_hash->{ gz_file } );
+  return $self->_inflate_archive_file( $create_hash, 'gz_file' );
 }
 
 sub _inflate_zip_file {
   my ( $self, $create_hash ) = @_;
 
-  return $self->_inflate_tar_file( $create_hash, $create_hash->{ zip_file } );
+  return $self->_inflate_archive_file( $create_hash, 'zip_file' );
+}
+
+sub _cleanup_files {
+  my ( $self, $io ) = @_;
+
+  my @files = $io->all;
+  for my $file ( @files ) {
+    if ( $file->filename =~ /^\./ ) {
+      $self->_remove_file_or_folder( $file );
+      next;
+    }
+    if ( $file->filename eq '__MACOSX' ) {
+      $self->_remove_file_or_folder( $file );
+      next;
+    }
+    use Devel::Dwarn; Dwarn $file->filename;
+  }
+  return $io;
+}
+
+sub _remove_file_or_folder {
+  my ( $self, $io ) = @_;
+
+  if ( $io->is_dir ) {
+    $io->rmtree;
+  }
+
+  if ( $io->is_file ) {
+    $io->unlink;
+  }
 }
 
 1;
