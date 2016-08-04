@@ -1,0 +1,51 @@
+<h1>Update your Tilda Mk3</h1>
+
+<p>
+  This websites will help you to update your Tilda Mk3 badge. <strong>But be
+  careful</strong>, following these instructions will potentially delete all
+  files and setting on your badge, so make sure you have copies of oeverything!
+</p>
+
+<h2>Before you start</h2>
+
+<p>
+  You need to put your badge into DFU mode. To do this please press down the
+  joystick button in the center while at the same time quickly pushing the
+  reset button at the back. You're now ready to update your badge.
+</p>
+
+<h2>OSX</h2>
+
+<p>Open a terminal and execute this line:</p>
+<pre>curl --silent --show-error --retry 5 https://update.badge.emfcamp.org/update.py | python</pre>
+
+<h2>Linux</h2>
+
+<p>Open a terminal and execute this line:</p>
+<pre>curl --silent --show-error --retry 5 https://update.badge.emfcamp.org/update.py | python</pre>
+
+<h2>Windows</h2>
+
+<p>TBD</p>
+<pre></pre>
+
+<h2>Other Operating systems</h2>
+
+<p>
+  To update your badge please download the following script and run it via
+  python: <a href="[% c.uri_for( '/update/update.py' ) %]">update.py</a>
+</p>
+
+<p>
+  If you know how to flash the badge yourself you can also download the DFU
+  binary directly: <a href="https://update.badge.emfcamp.org/firmware.dfu">firmware.dfu</a>
+</p>
+
+
+<h2>Build your own version</h2>
+
+<p>
+  If you want to build your own version of the firmware have a look at
+  <a href="https://badge.emfcamp.org/wiki/TiLDA_MK3/build">our wiki</a>.
+</p>
+
