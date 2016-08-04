@@ -61,6 +61,9 @@ sub set_latest_allowed_version {
   if ( defined $latest_allowed_version ) {
     $self->latest_allowed_version( $latest_allowed_version->id );
     $self->update;
+  } else {
+    $self->latest_allowed_version( undef );
+    $self->update;
   }
   return $self;
 }

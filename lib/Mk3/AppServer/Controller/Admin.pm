@@ -72,6 +72,7 @@ sub reject :Local :Args(1) {
   my $version = $c->model('DB::Version')->find( $id );
   if ( defined $version ) {
     $version->reject;
+    $version->project->set_latest_allowed_version;
   }
   $c->res->redirect( $redirect );
 }
