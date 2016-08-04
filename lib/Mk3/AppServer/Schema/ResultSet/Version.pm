@@ -37,6 +37,7 @@ sub _inflate_tar_file {
 
   return { error => 'Must be a flat file structure' } if grep(/\//, @$local_filenames);
   return { error => 'Filenames must not contain any whitespace' } if grep(/\s/, @$local_filenames);
+  return { error => 'App must contain "main.py" file' } unless scalar grep(/^main\.py$/, @$local_filenames);
 
   my @checked_files = map {
     my $file_name = File::Spec->catfile( $tempdir->dirname, $_ );
