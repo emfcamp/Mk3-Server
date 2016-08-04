@@ -17,10 +17,4 @@
 </form>
 [% END %]
 
-
-
-This is the user list page
-
-app count: [% apps_rs.count %]
-
 [% INCLUDE 'partials/app_block.tt' app_rs = app_rs %]
