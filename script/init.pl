@@ -15,7 +15,12 @@ exit Daemon::Control->new(
  
     init_code   => "eval \$(perl -I $ENV{HOME}/perl5/lib/perl5/ -Mlocal::lib)",
     program     => "starman",
-    program_args => [ qw/ --port 5000 --host localhost /, "$Bin/../mk3_appserver.psgi" ],
+    program_args => [ qw/
+      --port 5000
+      --host localhost
+      /,
+      "$Bin/../mk3_appserver.psgi"
+    ],
  
     pid_file    => "$Bin/../../mk3appserver.pid",
     stderr_file => "$Bin/../../mk3appserver.err",
