@@ -44,6 +44,7 @@ requires 'String::Random';
 requires 'Catalyst::View::Email::Template';
 requires 'IO::File::WithPath';
 requires 'Plack::Middleware::XSendfile';
+requires 'Gazelle';
 
 on 'test' => sub {
   requires 'Test::More' => '0.88';
