@@ -20,6 +20,8 @@ sub index :Path :Args(0) {
   # Load stuff in as required to the stash for template
 }
 
+sub help :Local :Args(0) {}
+
 =head2 default
 
 Standard 404 error page

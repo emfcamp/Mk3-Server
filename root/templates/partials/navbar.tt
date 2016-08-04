@@ -8,13 +8,37 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="[% c.uri_for( '/' ) %]#">Tilda Mk3 Apps</a>
+      <a class="navbar-brand" href="[% c.uri_for( '/' ) %]#">Tilda Mk3 App Library</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="[% c.uri_for( '/apps' ) %]">Apps</a></li>
+        <li class="dropdown">
+          <a
+            href="#"
+            class="help-dropdown"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            Help
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="[% c.uri_for( '/help' ) %]">
+              Using this App Library
+            </a></li>
+            <li><a href="[% c.uri_for( '/update' ) %]">
+              Update Badge Firmware
+            </a></li>
+            <li><a href="https://badge.emfcamp.org/wiki/TiLDA_MK3">
+              Mk3 Badge Wiki
+            </a></li>
+          </ul>
+        </li>
         [%- IF c.user_exists %]
         [%- IF c.check_user_roles('admin') %]
         <li class="dropdown">
