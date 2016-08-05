@@ -21,6 +21,8 @@ sub new_version {
     return $self->_inflate_gz_file( $create_hash );
   } elsif ( defined $create_hash->{ zip_file } ) {
     return $self->_inflate_zip_file( $create_hash );
+  } elsif ( defined $create_hash->{ py_file } ) {
+    return $self->_handle_main_py_file( $create_hash );
   }
 }
 
@@ -122,6 +124,26 @@ sub _remove_file_or_folder {
   if ( $io->is_file ) {
     $io->unlink;
   }
+}
+
+sub _handle_main_py_file {
+  my ( $self, $create_hash ) = @_;
+
+  my $py_file = delete $create_hash->{ 'py_file' };
+
+  my $files = [
+    {
+      filename => 'main.py',
+      file => $py_file,
+      file_hash => Digest::SHA->new(256)->add( $py_file )->hexdigest,
+    }
+  ];
+
+  $create_hash->{ files } =$files;
+
+  my $result = $self->create( $create_hash );
+
+  return { result => $result };
 }
 
 1;

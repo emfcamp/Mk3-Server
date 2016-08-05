@@ -80,8 +80,11 @@ sub save_file {
   } elsif ( $upload->type eq 'application/x-compressed-tar' ) {
     # .tgz file (same as tar.gz file)
     $create_hash->{ gz_file } = $file;
+  } elsif ( $upload->type eq 'text/x-python-script' && $upload->basename eq 'main.py' ) {
+    $c->log->debug($upload->basename);
+    $create_hash->{ py_file } = $file;
   } else {
-    $c->stash( error => "Unrecognised Archive Type", template => 'error.tt' );
+    $c->stash( error => "Unrecognised Archive Type or filename. Python script must be called 'main.py'.", template => 'error.tt' );
     return;
   }
   my $new_version = $c->model('DB::Version')->new_version( $create_hash );
