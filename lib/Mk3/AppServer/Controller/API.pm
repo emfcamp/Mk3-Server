@@ -45,7 +45,6 @@ sub apps :Local :Args(0) {
         user => $app_result->user->username,
         name => $app_result->name,
       };
-      push @{$json->{all}}, $app_data;
       push @{$json->{ $app_result->category->name }}, $app_data;
     }
   }
