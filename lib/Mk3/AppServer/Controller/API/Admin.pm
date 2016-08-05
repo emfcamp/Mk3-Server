@@ -89,11 +89,16 @@ sub update :Local :Args(1) {
   my $json_path = $firmware_path->stringify . ".json";
 
   my $json_file = io( $json_path );
-  $json_file->print(
-    encode_json(
-      $self->create_hashed_array( $target_dir )
-    )
-  );
+  my $lib_json_path = $firmware_path->stringify . "-lib.json";
+  my $lib_json_file = io( $lib_json_path );
+
+  my $json_object = $self->create_hashed_array( $target_dir );
+  $json_file->print( encode_json( $json_object ) );
+
+  if ( exists $json_object->{lib} ) {
+    $lib_json_file->print( encode_json( $json_object->{lib} ) );
+  }
+
   $c->stash( json => { success => \1, message => "Updated $branch" } );
 }
 
