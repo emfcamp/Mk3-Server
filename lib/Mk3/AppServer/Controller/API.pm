@@ -44,12 +44,6 @@ sub apps :Local :Args(0) {
       my $app_data = {
         user => $app_result->user->username,
         name => $app_result->name,
-        description => $app_result->description,
-        link => $c->uri_for( sprintf(
-          '/api/app/%s/%s',
-          $app_result->user->lc_username,
-          $app_result->lc_name,
-        ))->as_string,
       };
       push @{$json->{all}}, $app_data;
       push @{$json->{ $app_result->category->name }}, $app_data;
