@@ -30,9 +30,9 @@ No More Apps to Check!
   </div>
 </h3>
 <h4>App Description</h4>
-<p>[% version_result.project.description %]</p>
+<p>[% version_result.project.description | html_entity %]</p>
 <hr />
 <h4>Version Description</h4>
-<p>[% version_result.description %]</p>
+<p>[% version_result.description | html_entity %]</p>
 </li>
 [%- END %]

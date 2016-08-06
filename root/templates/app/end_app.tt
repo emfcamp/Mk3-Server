@@ -44,7 +44,7 @@
 
 <div>
   [% FILTER html_para %]
-    [% app_result.description %]
+    [% app_result.description | html_entity %]
   [% END %]
 </div>
 

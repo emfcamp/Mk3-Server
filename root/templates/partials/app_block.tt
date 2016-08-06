@@ -20,7 +20,7 @@ This app has an approved version!
 This app has no approved versions
 [%- END %]
 [% FILTER html_para %]
-  [% app_result.description %]
+  [% app_result.description | html_entity %]
 [% END %]
 </li>
 [%- END %]
