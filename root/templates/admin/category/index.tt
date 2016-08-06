@@ -22,7 +22,7 @@
       class="form-control"
       name="cat_name"
       [%- IF cat_name %]
-      value="[% cat_name %]"
+      value="[% cat_name | html_entity %]"
       [%- END %]
       placeholder="New Category Name">
   </div>

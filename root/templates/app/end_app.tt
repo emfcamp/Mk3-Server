@@ -13,7 +13,7 @@
     [% IF c.user_exists && owner %]
     <div class="app-sidebar-item">
       <form action="[% c.uri_for( '/upload' ) %]" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="app_id" value="[% app_result.id %]">
+        <input type="hidden" name="app_id" value="[% app_result.id | html_entity %]">
         <div class="form-inline">
           <div class="form-group">
             <input type="file" name="app_archive" required>

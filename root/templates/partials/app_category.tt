@@ -8,7 +8,7 @@
         [%- IF category_result.id == app_result.category_id %]
         selected
         [%- END %]
-        value="[% category_result.id %]">
+        value="[% category_result.id | html_entity %]">
         [% category_result.name %]
       </option>
       [% END %]
@@ -17,7 +17,7 @@
       <button class="btn btn-default" type="submit">Update Category</button>
     </span>
   </div>
-  <input type="hidden" name="app_id" value="[% app_result.id %]">
+  <input type="hidden" name="app_id" value="[% app_result.id | html_entity %]">
 </form>
 [% ELSE %]
   [% app_result.category.name || 'uncategorised' %]

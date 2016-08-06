@@ -13,7 +13,7 @@
       class="form-control"
       name="app_name"
       [%- IF app_name %]
-      value="[% app_name %]"
+      value="[% app_name | html_entity %]"
       [%- END %]
       placeholder="App Name">
   </div>

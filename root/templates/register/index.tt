@@ -15,7 +15,7 @@
           name="username"
           placeholder="Username"
           [%- IF username %]
-          value="[% username %]"
+          value="[% username | html_entity %]"
           [%- END %]
           required>
       </div>
@@ -26,7 +26,7 @@
           name="email"
           placeholder="Email"
           [%- IF email %]
-          value="[% email %]"
+          value="[% email | html_entity %]"
           [%- END %]
           required>
       </div>
