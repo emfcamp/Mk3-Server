@@ -20,6 +20,9 @@ No More Apps to Check!
 <li class="list-group-item">
 <h3>
   <a href="[% c.uri_for( user_link ) %]">[% version_result.project.user.username %]</a>
+  <span>[</span>
+  [% version_result.project.user.email %]
+  <span>]</span>
   <span>/</span>
   <a href="[% c.uri_for( app_link ) %]">[% version_result.project.name %]</a>
   <span>/</span>

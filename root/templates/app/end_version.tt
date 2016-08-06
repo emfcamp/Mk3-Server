@@ -40,6 +40,9 @@
         [%- END %]
       </div>
     </div>
+    <div class="app-sidebar-item">
+      Email: [% user_result.email %]
+    </div>
     [%- END %]
   </div>
 </div>
