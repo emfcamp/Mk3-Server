@@ -80,11 +80,8 @@ sub app :Local :Args(2) {
             file => $file_result->filename,
             hash => $file_result->file_hash,
             link => $c->uri_for( sprintf(
-              '/app/%s/%s/%s/get/file/%s',
-              $user_result->lc_username,
-              $app_result->lc_name,
-              $version_result->version,
-              $file_result->filename,
+              '/get/%s',
+              $file_result->id,
             ))->as_string,
           };
         }
