@@ -1,3 +1,51 @@
-<h1>Using the App Library</h1>
+<div class="jumbotron">
+  <h1 class="text-center">Using the App Library</h1>
 
-<p>... Coming Soon!</p>
+  <p class="text-center">
+    Welcome to the App Library! Here is where you can upload and see the
+    various apps available for the Mk3 Tilde Badge.
+  </p>
+</div>
+
+<ul class="list-group text-center">
+  <li class="list-group-item">
+    <p>
+      If you have not got an account yet, go to
+      <a href="[% c.uri_for('/register') %]">Register</a>, then
+      <a href="[% c.uri-for( '/login' ) %]">Login</a>.
+      You will need an account to create new apps!
+    </p>
+  </li>
+  <li class="list-group-item">
+    <p>
+      To create a new app, either use the form in the menu bar above, or go to
+      [%- IF c.user_exists %]
+      <a href="[% c.uri_for( '/app/' _ c.user.lc_username ) %]">Your app page</a>.
+      [%- ELSE %]
+      your apps page.
+      [%- END %]
+      App names can only contain letters, numbers, dash and underscore, and can
+      be up to 15 characters long.
+    </p>
+  </li>
+  <li class="list-group-item">
+    <p>
+      To upload a new version of your app, go to the Apps page, and upload a
+      new version using the file upload buttons.
+    </p>
+  </li>
+  <li class="list-group-item">
+    <p>
+      Once a new version has been uploaded, the badge admins will check over
+      the app and if everything is good, will authorise your app for download
+      by the badge!
+    </p>
+  </li>
+  <li class="list-group-item">
+    <p>
+      If you have any questions about writing a badge app, come over to the
+      badge tent or take a look at some of the other
+      <a href="[% c.uri_for( '/apps' ) %]">Apps</a> in the library!
+    </p>
+  </li>
+</ul>
