@@ -35,12 +35,16 @@ sub apps :Path('/apps') :Args(0) {
   };
 
   if ( $c->user_exists ) {
-    $app_where_clause = {
-      '-or' => {
-        'user_id' => $c->user->id,
-        %$app_where_clause,
-      }
-    };
+    if ( $c->check_user_roles( 'admin' ) ) {
+      $app_where_clause = undef;
+    } else {
+      $app_where_clause = {
+        '-or' => {
+          'user_id' => $c->user->id,
+          %$app_where_clause,
+        }
+      };
+    }
   }
 
   my $apps_rs = $c->model( 'DB::Project' )->search(
@@ -166,6 +170,9 @@ sub end_user :Chained('chain_root') :PathPart('') :Args(1) {
     my $where_clause = $c->stash->{ owner }
       ? undef
       : { latest_allowed_version => { '!=' => undef } };
+    if ( $c->check_user_roles( 'admin' ) ) {
+      $where_clause = undef;
+    }
     $c->stash(
       apps_rs => $user_result->search_related_rs( 'projects', $where_clause,
         { order_by => { -asc => 'lc_name' } }
@@ -197,6 +204,9 @@ sub end_app :Chained('chain_user') :PathPart('') :Args(1) {
     my $where_clause = $c->stash->{ owner }
       ? undef
       : { status => 'allowed' };
+    if ( $c->check_user_roles( 'admin' ) ) {
+      $where_clause = undef;
+    }
     my $versions_rs = $app_result->search_related_rs(
       'versions',
       $where_clause,
