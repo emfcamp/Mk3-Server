@@ -12,7 +12,7 @@
     <p>
       If you have not got an account yet, go to
       <a href="[% c.uri_for('/register') %]">Register</a>, then
-      <a href="[% c.uri-for( '/login' ) %]">Login</a>.
+      <a href="[% c.uri_for( '/login' ) %]">Login</a>.
       You will need an account to create new apps!
     </p>
   </li>
