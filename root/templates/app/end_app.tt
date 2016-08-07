@@ -37,6 +37,9 @@
     [% END %]
     <div class="clearfix"></div>
     <div class="app-sidebar-item">
+      <p>Before uploading, please check for the <a href="https://badge.emfcamp.org/wiki/TiLDA_MK3/App_Store_Submissions">most common problems</a></p>
+    </div>
+    <div class="app-sidebar-item">
       [% INCLUDE 'partials/app_category.tt' app_result = app_result %]
     </div>
   </div>
