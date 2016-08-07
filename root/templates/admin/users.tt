@@ -13,7 +13,7 @@
 <h3>
   <a href="[% c.uri_for( user_link ) %]">[% user_result.username %]</a>
   <span>/</span>
-  [% user_result.email %]
+  [% user_result.email | html_entity %]
   <div class="pull-right">
     [%- IF user_result.id != c.user.id %]
     [%- IF c.check_user_roles( c.find_user({id = user_result.id}), 'admin' ) %]

@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="app-sidebar-item">
-      Email: [% user_result.email %]
+      Email: [% user_result.email | html_entity %]
     </div>
     [%- END %]
   </div>
