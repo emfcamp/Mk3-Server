@@ -158,6 +158,41 @@ sub create_hashed_array {
   }
 }
 
+sub set_publish {
+  my ( $self, $c, $id, $status ) = @_;
+
+  my $app_result = $c->model('DB::Project')->find( $id );
+  if ( defined $app_result ) {
+    $app_result->update({ published => $status });
+
+    $c->res->redirect( $self->app_url_for_app_result( $c, $app_result ) );
+  } else {
+    $c->stash( template => 'error.tt', error => "App does not exist" );
+  }
+}
+
+sub publish :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
+
+  return $self->set_publish( $c, $id, \1 );
+}
+
+sub unpublish :Local :Args(1) {
+  my ( $self, $c, $id ) = @_;
+
+  return $self->set_publish( $c, $id, \0 );
+}
+
+sub app_url_for_app_result {
+  my ( $self, $c, $app_result ) = @_;
+
+  return $c->uri_for( sprintf(
+    '/app/%s/%s',
+    $app_result->user->lc_username,
+    $app_result->lc_name,
+  ) );
+}
+
 =encoding utf8
 
 =head1 AUTHOR

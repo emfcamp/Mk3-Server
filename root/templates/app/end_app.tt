@@ -1,6 +1,8 @@
 [%- user_link = "/app/${app_result.user.lc_username}"
     app_link = "${user_link}/${app_result.lc_name}"
     description_link = "${app_link}/edit_desc"
+    publish_link = "/admin/publish/${app_result.id}"
+    unpublish_link = "/admin/unpublish/${app_result.id}"
 -%]
 
 <div class="row">
@@ -42,6 +44,17 @@
     <div class="app-sidebar-item">
       [% INCLUDE 'partials/app_category.tt' app_result = app_result %]
     </div>
+    [%- IF c.check_user_roles('admin') %]
+    <div class="app-sidebar-item">
+      <div class="btn-group">
+        [%- IF app_result.published %]
+        <a class="btn btn-danger" href="[% c.uri_for( unpublish_link ) %]">Unpublish App</a>
+        [%- ELSE %]
+        <a class="btn btn-success" href="[% c.uri_for( publish_link ) %]">Publish App</a>
+        [%- END %]
+      </div>
+    </div>
+    [%- END %]
   </div>
 </div>
 

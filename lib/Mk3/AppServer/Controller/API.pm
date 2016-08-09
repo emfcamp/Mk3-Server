@@ -33,7 +33,7 @@ sub index :Path :Args(0) {
 sub apps :Local :Args(0) {
   my ( $self, $c ) = @_;
 
-  my $apps_rs = $c->model('DB::Project');
+  my $apps_rs = $c->model('DB::Project')->search({ published => 1 });
 
   my $json = {};
 
