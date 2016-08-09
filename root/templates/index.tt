@@ -7,3 +7,25 @@ Please log in or register
 [%- END %]
 </h1>
 </div>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    Post EMF Camp Notice
+  </div>
+  <div class="panel-body">
+    <p>
+      Thank you for all coming to EMF! Due to some apps being specifically for
+      the event, we have disabled them for the time being.
+    </p>
+    <p>
+      In the coming weeks and months, there will be improvements released to
+      the base badge apps, as well as to this server. Please bear with us as we
+      get these improvements out, and as always, Pull Requests welcome!
+    </p>
+    <p>
+      All of us on the Badge Team, as well as all the other Organisers and
+      Volunteers from EMF look forward to seeing all the apps you release in
+      the coming months!
+    </p>
+  </div>
+</div>
