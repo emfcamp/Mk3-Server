@@ -49,6 +49,11 @@ column latest_allowed_version => {
   is_nullable => 1,
 };
 
+column published => {
+  data_type => 'boolean',
+  default_value => \1,
+};
+
 sub set_latest_allowed_version {
   my $self = shift;
 
