@@ -4,7 +4,7 @@
 BEGIN;
 
 ;
-ALTER TABLE projects ADD COLUMN published enum('0','1') NOT NULL DEFAULT 1;
+ALTER TABLE projects ADD COLUMN published enum('0','1') NOT NULL DEFAULT '1';
 
 ;
 

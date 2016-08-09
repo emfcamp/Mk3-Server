@@ -1,6 +1,6 @@
 -- 
 -- Created by SQL::Translator::Producer::MySQL
--- Created on Tue Aug  9 22:14:47 2016
+-- Created on Tue Aug  9 22:44:31 2016
 -- 
 ;
 SET foreign_key_checks=0;
@@ -58,7 +58,7 @@ CREATE TABLE `projects` (
   `description` text NOT NULL,
   `category_id` integer NULL DEFAULT 0,
   `latest_allowed_version` integer NULL,
-  `published` enum('0','1') NOT NULL DEFAULT 1,
+  `published` enum('0','1') NOT NULL DEFAULT '1',
   INDEX `projects_idx_category_id` (`category_id`),
   INDEX `projects_idx_user_id` (`user_id`),
   PRIMARY KEY (`id`),

@@ -4,7 +4,7 @@
 BEGIN;
 
 ;
-ALTER TABLE projects ADD COLUMN published boolean DEFAULT 1 NOT NULL;
+ALTER TABLE projects ADD COLUMN published boolean DEFAULT '1' NOT NULL;
 
 ;
 

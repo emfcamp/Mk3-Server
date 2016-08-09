@@ -51,7 +51,7 @@ column latest_allowed_version => {
 
 column published => {
   data_type => 'boolean',
-  default_value => \1,
+  default_value => 1,
 };
 
 sub set_latest_allowed_version {
