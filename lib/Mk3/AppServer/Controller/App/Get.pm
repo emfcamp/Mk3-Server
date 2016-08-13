@@ -93,7 +93,8 @@ sub _serve_file {
   my ( $self, $c, $filename, $file ) = @_;
 
   my $mime_type = MIME::Types->new->mimeTypeOf( $filename );
-  $c->res->content_type( $mime_type->type );
+  my $mime_string = defined $mime_type ? $mime_type->type : 'application/octet-stream';
+  $c->res->content_type( $mime_string );
   $c->res->header('Content-Disposition', qq[attachment; filename="$filename"]);
   my $io = IO::File::WithPath->new( $file->absolute->stringify );
   $c->res->body( $io );
